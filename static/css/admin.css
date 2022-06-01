@@ -145,12 +145,12 @@ position: absolute;
 margin-left: 12px;
   margin-bottom: 10px;
 height: 20vh;
-width: 20vh;
+width: 25vh;
 left: 10%;
-background-image: url(456.png);
+background-image: url(p-d.jpg);
 background-size: cover;
-transform: translateY(30%);
-  border: 1px solid #fafafa;
+transform: translateY(40%);
+  border: 1px solid #ffff;
   color:#f5f6f746;
 border-radius: 50%;  
 }
@@ -159,13 +159,15 @@ border-radius: 50%;
 }
 .info1 h3{
   position: relative;
-  left: 20%;
-  transform: translateY(-600%); 
+  left: 10%;
+  transform: translateY(300%); 
+  color: #003659;
 }
 .info h3{
   position: relative;
-  left: 130%;
-  transform: translateY(360%); 
+  left: 150%;
+  transform: translateY(1200%); 
+  color: #003659;
 }
 .info1 button{
   position: relative;
@@ -175,10 +177,10 @@ margin-left: 12px;
 height: 20vh;
 width: 20vh;
 left: 60%;
-background-image: url(admin.png);
+background-image: url(admin.jpg);
 background-size: cover;
 transform: translateY(-90%);
-  border: 1px solid #fafafa;
+  border: 1px solid #ffff;
   color:#f5f6f746;
 border-radius: 50%;  
 }
