@@ -1,67 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>CSS User Profile Card</title>
-{#	<link rel="stylesheet" href="admin.css">#}
+{% extends "base.html" %}
+{% block title %}About{% endblock %} {% block body%}
     <link rel="stylesheet" href="{{ url_for('static',filename='css/admin.css') }}">
 	<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
-</head>
-<body>
-
 <div class="wrapper">
     <div class="left">
         <img src="https://i.imgur.com/cMy8V5j.png" 
         alt="user" width="100">
-        <h4> Alex</h4>
-        <p> Admin </p>
-        <table class="table3">
-          <thead>
-            <tr>
-              <th>doct</th>
-            
-          <tbody>
-            <tr>
-              <td>CES-9000</td>
-            </tr> 
-            <tr>
-              <td>CES-9000</td>
-            </tr>   
-          </tbody>
-          
-
-        </table>
+        <h2> Admin</h2>
+        <h4> Welcome </h4>
         <div class="left-button">
         <button> <a href="{{ url_for('add_patient') }}">Add patient</a><br></button><br>
         </div>
         <div class="right-button">
         <button> <a href="{{ url_for('add_doctor') }}">Add doctor</a><br></button>
         </div>
-        <form>
-          <div>
-            <button formmethod="get" type="submit" formaction="{{ url_for('edit_doctor') }}">
-                        Edit Dr
-            </button>
-
-            <button formmethod="post" type="submit" formaction="{{ url_for('delete_doctor') }}">
-                        Delete Dr
-            </button>
-          </div>
-        </form>
-        <form >
-            <div>
-               <button formmethod="get" type="submit" formaction="{{ url_for('edit_patient') }}">
-                        Edit Patient
-               </button>
-
-            <button formmethod="post" type="submit" formaction="{{ url_for('delete_patient') }}">
-                        Delete Patient
-            </button>
-           </div>
-        </form>
-      </div>
-
+            </div>
     <div class="right">
+      <form>
+        <div class="edit-doct">
+          <button formmethod="get" type="submit" formaction="{{ url_for('edit_doctor') }}">
+                      Edit Dr
+          </button>
+
+          <button formmethod="post" type="submit" formaction="{{ url_for('delete_doctor') }}">
+                      Delete Dr
+          </button>
+        </div>
+      </form>
+      <form >
+          <div class= "edit-patient">
+             <button formmethod="get" type="submit" formaction="{{ url_for('edit_patient') }}">
+                      Edit Patient
+             </button>
+
+          <button formmethod="post" type="submit" formaction="{{ url_for('delete_patient') }}">
+                      Delete Patient
+          </button>
+         </div>
+      </form>
       <div class="right-top">
         <button id="patient" class="btn" name="patient" onclick="patient()">patient</button>
         <button id="doctor" class="btn" name="doctor" onclick="doctor()">doctor</button>
@@ -79,7 +55,6 @@
                   <th>address</th>
                   <th>id</th>
                 </tr>
-              <thead>
               <tbody>
                 {%for r in patient%}
                 <tr>
@@ -106,7 +81,7 @@
           <th>address</th>
           <th>id</th>
         </tr>
-      <thead>
+
       <tbody>
         {%for r in doctor%}
         <tr>
@@ -121,7 +96,9 @@
       </tbody>
               </table>
           </form>
-
+        </div>
+      </div>
+    </div>
 
 <script>
 		var x = document.getElementById("patient-form");
@@ -134,8 +111,8 @@
 		var ac = document.getElementById("action_title");
 
 		function doctor(){
-			x.style.left = "-900px";
-			y.style.left = "-90px";
+      x.style.left = "-700px";
+			y.style.left = "30px";
 			z.style.left = "490px";
 			l.style.color = "##bfbbec";
 			r.style.color = "##bfbbec";
@@ -144,7 +121,7 @@
 		}
 
 		function patient(){
-			x.style.left = "500px";
+			x.style.left = "300px";
 			y.style.left = "900px";
 			z.style.left = "100px";
 			l.style.color = "##bfbbec";
@@ -154,5 +131,4 @@
 		}
 			
 	</script>
-</body>
-</html>
+{% endblock %}
