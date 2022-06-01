@@ -1,105 +1,27 @@
 {% extends "base.html" %}
 {% block title %}About{% endblock %} {% block body%}
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/admin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/doctor.css') }}">
 	<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 <div class="wrapper">
     <div class="left">
-        <img src="https://i.imgur.com/cMy8V5j.png" 
-        alt="user" width="100">
         <h2> Doctor</h2>
         <h4> Welcome </h4>
-    </div>
-    <div class="right">
-           <div class="right-top">
-        <button id="patient" class="btn" name="patient" onclick="patient()">patient</button>
-        <button id="doctor" class="btn" name="doctor" onclick="doctor()">doctor</button>
-        <div id="pointer-btn"></div>
-      </div>
-        <div class="info">
-          <form id="patient-form">
-            <table class="table2">
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Email</th>
-                  <th>Password</th>
-                  <th>SSN</th>
-                  <th>address</th>
-                  <th>id</th>
-                </tr>
-              <tbody>
-                {%for r in patient%}
-                <tr>
-                  <td>{{r.0}}</td>
-                  <td>{{r.1}}</td>
-                  <td>{{r.2}}</td>
-                  <td>{{r.3}}</td>
-                  <td>{{r.4}}</td>
-                  <td>{{r.5}}</td>
-                </tr>
-                 {% endfor %}
-              </tbody>
-            </table>
-          </form>
-
-          <form id="doctor-form">
-              <table class="table1">
-      <thead>
-        <tr>
-          <th>User</th>
-          <th>Email</th>
-          <th>Password</th>
-          <th>SSN</th>
-          <th>address</th>
-          <th>id</th>
-        </tr>
-
-      <tbody>
-        {%for r in doctor%}
-        <tr>
-          <td>{{r.0}}</td>
-          <td>{{r.1}}</td>
-          <td>{{r.2}}</td>
-          <td>{{r.3}}</td>
-          <td>{{r.4}}</td>
-          <td>{{r.5}}</td>
-        </tr>
-         {% endfor %}
-      </tbody>
-              </table>
-          </form>
+        <div class="dropdown">
+          <button>Options</button>
+          <div class="dropdown-content">
+          <a href="{{ url_for('appoint') }}">appointment</a>
+          </div>
         </div>
     </div>
-</div>
-<script>
-		var x = document.getElementById("patient-form");
-		var y = document.getElementById("doctor-form");
-	
-		var z = document.getElementById("pointer-btn");
-		var l = document.getElementById("patient");
-		var r = document.getElementById("doctor");
-
-		var ac = document.getElementById("action_title");
-
-		function doctor(){
-      x.style.left = "-700px";
-			y.style.left = "30px";
-			z.style.left = "490px";
-			l.style.color = "##bfbbec";
-			r.style.color = "##bfbbec";
-			n.style.color = "##bfbbec";
-			ac.textContent = "Doctor";
-		}
-
-		function patient(){
-			x.style.left = "300px";
-			y.style.left = "900px";
-			z.style.left = "100px";
-			l.style.color = "##bfbbec";
-			r.style.color = "##bfbbec";
-			n.style.color = "##bfbbec";
-			ac.textContent = "Patient";
-		}
-			
-	</script>
+    <div class="right">
+      <div class="info">
+        <h3> Profile</h3>
+      <button> <a href="{{ url_for('veiwdoct') }}">.</a><br></button>
+    </div>
+    <div class="info1">
+        <h3> Appointment</h3>
+      <button> <a href="{{ url_for('veiwdoct') }}">.</a><br></button>
+    </div>
+      </div>
+            
   {% endblock %}
