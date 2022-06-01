@@ -8,7 +8,7 @@ import mysql.connector
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  passwd="misara2468",
+  passwd="root_123_456_789",
   database="project"
 )
 mycursor = mydb.cursor()
@@ -58,7 +58,7 @@ def login():
         elif (idd[0] == str(1)):
             #print("True")
             session["a_id"] = idd
-            mycursor.execute("SELECT id,password FROM admin")
+            mycursor.execute("SELECT id,password FROM mydatabase")
             account = mycursor.fetchall()
             #print(account)
             for x in account:
@@ -99,7 +99,7 @@ def register():
             flash('Address must be greater than 2 character.', category='error')       
         else:
             # if all inputs are right -> start creating the account    
-            sql = "INSERT INTO admin (user_name,email,password,ssn,address,id) VALUES (%s, %s, %s,%s,%s,%s)"
+            sql = "INSERT INTO mydatabase (user_name,email,password,ssn,address,id) VALUES (%s, %s, %s,%s,%s,%s)"
             # Add new admin
             val = (user_name,email,password,ssn,address,id)
             mycursor.execute(sql, val)
@@ -110,8 +110,8 @@ def register():
 
 
 ##################################### The Admin Page ####################################################
-@app.route('/admin', methods=['GET','POST'])
-def admin():
+@app.route('/veiw', methods=['GET','POST'])
+def veiw():
     mycursor.execute("SELECT * FROM doctor")
     row_headers=[x[0] for x in mycursor.description]
     doctor_result = mycursor.fetchall()
@@ -128,8 +128,10 @@ def admin():
          'rec':patient_result,
          'header':row_headers
       }
-    return render_template("admin.html ",patient=patient_result,doctor=doctor_result)
-
+    return render_template("veiw.html ",patient=patient_result,doctor=doctor_result)
+@app.route('/admin', methods =['GET', 'POST'])
+def admin():
+   return render_template("admin.html ")  
 ### Add doctor Page ####       
 @app.route('/add_doctor', methods =['GET', 'POST'])
 def add_doctor():
