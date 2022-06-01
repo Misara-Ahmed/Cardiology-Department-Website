@@ -8,7 +8,7 @@ import mysql.connector
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  passwd="root_123_456_789",
+  passwd="misara2468",
   database="project"
 )
 mycursor = mydb.cursor()
@@ -58,7 +58,7 @@ def login():
         elif (idd[0] == str(1)):
             #print("True")
             session["a_id"] = idd
-            mycursor.execute("SELECT id,password FROM mydatabase")
+            mycursor.execute("SELECT id,password FROM admin")
             account = mycursor.fetchall()
             #print(account)
             for x in account:
@@ -99,7 +99,7 @@ def register():
             flash('Address must be greater than 2 character.', category='error')       
         else:
             # if all inputs are right -> start creating the account    
-            sql = "INSERT INTO mydatabase (user_name,email,password,ssn,address,id) VALUES (%s, %s, %s,%s,%s,%s)"
+            sql = "INSERT INTO admin (user_name,email,password,ssn,address,id) VALUES (%s, %s, %s,%s,%s,%s)"
             # Add new admin
             val = (user_name,email,password,ssn,address,id)
             mycursor.execute(sql, val)
@@ -110,8 +110,8 @@ def register():
 
 
 ##################################### The Admin Page ####################################################
-@app.route('/veiw', methods=['GET','POST'])
-def veiw():
+@app.route('/admin', methods=['GET','POST'])
+def admin():
     mycursor.execute("SELECT * FROM doctor")
     row_headers=[x[0] for x in mycursor.description]
     doctor_result = mycursor.fetchall()
@@ -128,10 +128,8 @@ def veiw():
          'rec':patient_result,
          'header':row_headers
       }
-    return render_template("veiw.html ",patient=patient_result,doctor=doctor_result)
-@app.route('/admin', methods =['GET', 'POST'])
-def admin():
-   return render_template("admin.html ")  
+    return render_template("admin.html ",patient=patient_result,doctor=doctor_result)
+
 ### Add doctor Page ####       
 @app.route('/add_doctor', methods =['GET', 'POST'])
 def add_doctor():
@@ -198,8 +196,8 @@ def edit_patient():
         mycursor.execute("SELECT * FROM patient WHERE id = %s" , (p_id,))
         result = mycursor.fetchone()
         row_headers = [x[1] for x in mycursor.description]
-        print(row_headers)
-        print(result[0])
+        #print(row_headers)
+        #print(result[0])
         return render_template('edit_patient.html',result=result)
     elif request.method =='POST':
         user_name = request.form['username']
