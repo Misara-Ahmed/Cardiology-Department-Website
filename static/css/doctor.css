@@ -1,0 +1,257 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+body{
+   background-color: #f3f3f3;
+}
+
+a{
+  color:#fff;
+  text-decoration: none;
+}
+
+.navlist{
+  width: 100%;
+  padding: 15px 15vw;
+  position: fixed;
+  background-color:#003659;
+  z-index: 10;
+
+}
+
+.box img{
+position: absolute;
+  left: 100px;
+  bottom: -58px;
+  width: 180px;
+  height: 150px;
+}
+
+.navlist ul {
+  display: flex;
+  list-style: none;
+}
+.navlist ul li:first-child{
+  flex: 1;
+}
+.navlist h2{
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+}
+.navlist ul a{
+  margin-left: 20px;
+  font-size: 17px;
+}
+.navlist ul a:hover{
+  color: rgb(151, 52, 52);
+}
+.wrapper{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  size-adjust: center;
+  width: 1050px;
+  height: 80%;
+  display: flex;
+  box-shadow: 0 1px 20px 0 rgba(69,90,100,.08);
+	padding: 10px 0px;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+
+.wrapper .left{
+  width: 35%;
+  background: linear-gradient(to right,#003659,#003659);
+  padding: 30px 25px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  text-align: center;
+  color: #fff;
+}
+
+.wrapper .left img{
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.wrapper .left h4{
+  margin-bottom: 10px;
+}
+
+.wrapper .left p{
+  font-size: 12px;
+}
+
+.wrapper .right{
+  width: 65%;
+  background: #fff;
+  padding: 30px 25px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.right-top{
+  transform: translateY(-40%);
+	width: 100%;
+	position: relative;
+	border-bottom: 1px solid #0b207e;
+}
+.right-top > .btn{
+  
+	border: 0;
+	background-color: transparent;
+	color: #003659;
+	font-size: 23px;
+	letter-spacing: 1px;
+	font-weight: 500;
+	width: 300px;
+	padding: 20px 0;
+}
+
+#pointer-btn{
+	position: absolute;
+	bottom:-1px;
+	left: 420px;
+	width: 120px;
+	height: 2px;
+	background-color: #ccebfa;
+	transition: 0.5s all ease;
+}
+
+.info{
+	width: 50%;
+	padding: 15px 20px;
+	position: relative;
+}
+
+.info > #patient-form{
+	position: absolute;
+	top: 10px;
+	left: -900px;
+	text-align: center;
+	transition: 0.5s all ease;
+}
+
+.info > #doctor-form{
+	position: absolute;
+	top: 10px;
+	left: 100px;
+	text-align: center;
+	transition: 0.5s all ease;
+}
+.table1 {
+  border-spacing: 1;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+  max-width: 800px;
+  width: 150%;
+  margin: 0 auto;
+  position: relative;
+
+  
+}
+.table1 thead tr {
+  height: 60px;
+  background: #aed6f3;
+  font-size: 16px;
+}
+.table1 tbody tr {
+  height: 48px;
+  border-bottom: 1px solid #e3f1d5;
+}
+
+
+
+.table2 {
+  border-spacing: 1;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+  max-width: 800px;
+  width: 150%;
+  margin: 0 auto;
+  position: relative;
+  transform: translateX(-55%);
+}
+table thead tr {
+  height: 60px;
+  background: #aed6f3;
+  font-size: 16px;
+}
+.table2 tbody tr {
+  height: 48px;
+  border-bottom: 1px solid #e3f1d5;
+}
+.table3 {
+  border-spacing: 1;
+  border-collapse: collapse;
+  background: #003659;
+  border-radius: 6px;
+  overflow: hidden;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  transform: translateX(-1%);
+}
+.table3 thead tr {
+  height: 30px;
+  background: #003659;
+  font-size: 16px;
+}
+.table3 tbody tr {
+  height: 30px;
+  border-bottom: 1px solid #003659;
+}
+
+
+.left-button button{
+  position: relative;
+  padding: 15px;
+margin-left: 12px;
+  margin-bottom: 10px;
+height: 7.5vh;
+width: 13vh;
+left: -20%;
+transform: translateY(120%);
+  background: none;
+  border: 1px solid #d4d9dd;
+border-radius: 10px;
+}
+.left-button button:hover{
+  background: rgb(200, 210, 214);
+}
+.right-button button{
+  position: relative;
+  left: 10%;
+  padding: 15px;
+margin-left: 12px;
+  margin-bottom: 10px;
+height: 7.5vh;
+width: 13vh;
+  background: none;
+  border: 1px solid #d4d9dd;
+border-radius: 10px;
+}
+.right-button button:hover{
+  background: rgba(219, 228, 231, 0.849);
+}
+.right-button button a{
+color:#f6f9fc;
+}
+.left-button button a{
+  color:#f6f9fc;
+  }
+  

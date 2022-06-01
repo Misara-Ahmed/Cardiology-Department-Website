@@ -12,17 +12,61 @@ body{
    background-color: #f3f3f3;
 }
 
+a{
+  color:#fff;
+  text-decoration: none;
+}
+
+.navlist{
+  width: 100%;
+  padding: 15px 15vw;
+  position: fixed;
+  background-color:#003659;
+  z-index: 10;
+
+}
+
+.box img{
+position: absolute;
+  left: 100px;
+  bottom: -58px;
+  width: 180px;
+  height: 150px;
+}
+
+.navlist ul {
+  display: flex;
+  list-style: none;
+}
+.navlist ul li:first-child{
+  flex: 1;
+}
+.navlist h2{
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+}
+.navlist ul a{
+  margin-left: 20px;
+  font-size: 17px;
+}
+.navlist ul a:hover{
+  color: rgb(151, 52, 52);
+}
 .wrapper{
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
   size-adjust: center;
-  width: 1364px;
-  height: 100%;
+  width: 1050px;
+  height: 80%;
   display: flex;
   box-shadow: 0 1px 20px 0 rgba(69,90,100,.08);
+	padding: 10px 0px;
+	border-radius: 5px;
+	overflow: hidden;
 }
+
 
 .wrapper .left{
   width: 35%;
@@ -54,32 +98,62 @@ body{
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
-
-
-
-
+.edit-patient button{
+  position: relative;
+  padding: 15px;
+margin-left: 12px;
+  margin-bottom: 10px;
+height: 6.5vh;
+width: 13vh;
+left: 4%;
+transform: translateY(-130%);
+  background: none;
+  border: 1px solid #003659;
+  color:#003659;
+border-radius: 10px;  
+}
+.edit-doct button:hover{
+  background: rgba(219, 228, 231, 0.849);
+}
+.edit-doct button{
+  position: relative;
+  padding: 15px;
+margin-left: 12px;
+  margin-bottom: 10px;
+height: 6.5vh;
+width: 13vh;
+left: 56%;
+transform: translateY(-10%);
+  background: none;
+  color:#003659;
+  border: 1px solid #003659;
+border-radius: 10px;   
+}
+.edit-patient button:hover{
+  background: rgba(219, 228, 231, 0.849);
+}
 .right-top{
+  transform: translateY(-110%);
 	width: 100%;
 	position: relative;
 	border-bottom: 1px solid #0b207e;
 }
-
 .right-top > .btn{
+  
 	border: 0;
 	background-color: transparent;
 	color: #003659;
 	font-size: 23px;
 	letter-spacing: 1px;
 	font-weight: 500;
-	width: 360px;
+	width: 300px;
 	padding: 20px 0;
 }
-
 
 #pointer-btn{
 	position: absolute;
 	bottom:-1px;
-	left: 490px;
+	left: 420px;
 	width: 120px;
 	height: 2px;
 	background-color: #ccebfa;
@@ -94,7 +168,7 @@ body{
 
 .info > #patient-form{
 	position: absolute;
-	top: 20px;
+	top: -40px;
 	left: -900px;
 	text-align: center;
 	transition: 0.5s all ease;
@@ -102,7 +176,7 @@ body{
 
 .info > #doctor-form{
 	position: absolute;
-	top: 20px;
+	top: -40px;
 	left: 100px;
 	text-align: center;
 	transition: 0.5s all ease;
@@ -114,7 +188,7 @@ body{
   border-radius: 6px;
   overflow: hidden;
   max-width: 800px;
-  width: 200%;
+  width: 150%;
   margin: 0 auto;
   position: relative;
 
@@ -139,7 +213,7 @@ body{
   border-radius: 6px;
   overflow: hidden;
   max-width: 800px;
-  width: 270%;
+  width: 150%;
   margin: 0 auto;
   position: relative;
   transform: translateX(-55%);
