@@ -39,6 +39,7 @@ def login():
         #print(idd[0])
         if (idd[0] == str(3)):
             session["p_id"] = idd
+            session['log'] = 'pat'
             mycursor.execute("SELECT id,password FROM patient")
             account = mycursor.fetchall()
             for x in account:
@@ -48,6 +49,7 @@ def login():
             # return render_template("login.html")
         elif (idd[0] == str(2)):
             session["d_id"] = idd
+            session['log'] = 'doc'
             mycursor.execute("SELECT id,password FROM doctor")
             account = mycursor.fetchall()
             for x in account:
@@ -58,6 +60,7 @@ def login():
         elif (idd[0] == str(1)):
             #print("True")
             session["a_id"] = idd
+            session['log'] = 'adm'
             mycursor.execute("SELECT id,password FROM admin")
             account = mycursor.fetchall()
             #print(account)
@@ -107,11 +110,9 @@ def register():
             mydb.commit()
             #flash('Account successfully created', category='success')
     return render_template('register.html')
-
-
-##################################### The Admin Page ####################################################
-@app.route('/admin', methods=['GET','POST'])
-def admin():
+##########################################################################################################
+@app.route('/adveiw', methods=['GET','POST'])
+def veiw():
     mycursor.execute("SELECT * FROM doctor")
     row_headers=[x[0] for x in mycursor.description]
     doctor_result = mycursor.fetchall()
@@ -128,9 +129,32 @@ def admin():
          'rec':patient_result,
          'header':row_headers
       }
-    return render_template("admin.html ",patient=patient_result,doctor=doctor_result)
+    return render_template("veiw.html ",patient=patient_result,doctor=doctor_result)
 
-### Add doctor Page ####       
+##################################### The Admin Page ####################################################
+@app.route('/admin', methods=['GET','POST'])
+def admin():
+   return render_template("admin.html")
+# def admin():
+#     mycursor.execute("SELECT * FROM doctor")
+#     row_headers=[x[0] for x in mycursor.description]
+#     doctor_result = mycursor.fetchall()
+#     doctor={
+#          'message':"data retrieved",
+#          'rec':doctor_result,
+#          'header':row_headers
+#       }
+#     mycursor.execute("SELECT * FROM patient")
+#     row_headers=[y[0] for y in mycursor.description]
+#     patient_result = mycursor.fetchall()
+#     patient={
+#          'message':"data retrieved",
+#          'rec':patient_result,
+#          'header':row_headers
+#       }
+#     return render_template("admin.html ",patient=patient_result,doctor=doctor_result)
+
+########################################### Add doctor Page ###################################################
 @app.route('/add_doctor', methods =['GET', 'POST'])
 def add_doctor():
     if request.method == 'POST' and 'username' in request.form and 'email' in request.form  and 'password' in request.form and 'ssn' in request.form and 'address' in request.form  and 'id' in request.form:
@@ -237,7 +261,45 @@ def edit_doctor():
         mydb.commit()
         return redirect(url_for("admin"))
 
+###########################################  View Page #########################################################
+@app.route('/view', methods=['GET','POST'])
+def doctor_profile():
+    mycursor = mydb.cursor()
+    d_id = session["d_id"]
+    if request.method == "GET":
+        mycursor.execute("SELECT * FROM doctor WHERE id = %s", (d_id,))
+        result = mycursor.fetchone()
+        row_headers = [x[1] for x in mycursor.description]
+        return render_template('profile.html', result=result)
 
+    else :
+        return render_template('admin.html')
+################################################ View
+@app.route('/view', methods=['GET','POST'])
+def patient_profile():
+    mycursor = mydb.cursor()
+    p_id = session["p_id"]
+    if request.method == "GET":
+        mycursor.execute("SELECT * FROM patient WHERE id = %s", (p_id,))
+        result = mycursor.fetchone()
+        row_headers = [x[1] for x in mycursor.description]
+        return render_template('profile.html', result=result)
+
+    else :
+        return render_template('admin.html')
+##############################################################
+@app.route('/view', methods=['GET','POST'])
+def admin_profile():
+    mycursor = mydb.cursor()
+    a_id = session["a_id"]
+    if request.method == "GET":
+        mycursor.execute("SELECT * FROM admin WHERE id = %s", (a_id,))
+        result = mycursor.fetchone()
+        row_headers = [x[1] for x in mycursor.description]
+        return render_template('profile.html', result=result)
+
+    else :
+        return render_template('admin.html')
 ########################################### Doctors Page ########################################################
 @app.route( '/doctor' , methods=['GET','POST'])
 def doctor():
@@ -266,6 +328,7 @@ def about():
 def contact():
 
     return render_template('contactus.html')
+
 
 
 

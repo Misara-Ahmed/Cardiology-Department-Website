@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{#<link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">#}
+{% block body%}
+{#    cscscs#}
+    <div>
+    {% if session['log'] == 'doc' -%}
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+        <div align="center">
+            <div align="center" class="border">
+                <div class="header">
+                    <h1 class="word">Profile</h1>
+                </div></br></br></br>
+                <h2 class="word">
+                    <form action="{{ url_for('doctor') }}" method="get">
+                        <input id="username" name="username" type="text" value="{{ result[0] }}" class="textbox" disabled/></br></br>
+                        <input id="email" name="email" type="text" value="{{ result[1] }}" class="textbox" disabled/></br></br>
+                        <input id="password" name="password" type="password" value="{{ result[2] }}" class="textbox" disabled/></br></br>
+                        <input id="ssn" name="ssn" type="text" value="{{ result[3] }}" class="textbox" disabled/></br></br>
+                        <input id="address" name="address" type="text" value="{{ result[4] }}" class="textbox" disabled/></br></br>
+                        <input id="id" name="id" type="text" value="{{ result[5] }}" class="textbox" disabled/></br></br>
+                        <input type="submit" class="btn" value="Done"></br>
+                        {#              <input type="submit" class="btn" value="Update"></br>#}
+                    </form>
+                </h2>
+            </div>
+        </div>
+{#    </div>#}
+{#{% endblock %}#}
+    {% elif session['log'] == 'pat' -%}
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+        <div align="center">
+            <div align="center" class="border">
+                <div class="header">
+                    <h1 class="word">Profile Edit</h1>
+                </div></br></br></br>
+                <h2 class="word">
+                    <form action="{{ url_for('patient') }}" method="get">
+                        <input id="username" name="username" type="text" value="{{ result[0] }}" class="textbox" disabled/></br></br>
+                        <input id="email" name="email" type="text" value="{{ result[1] }}" class="textbox" disabled/></br></br>
+                        <input id="password" name="password" type="password" value="{{ result[2] }}" class="textbox" disabled/></br></br>
+                        <input id="ssn" name="ssn" type="text" value="{{ result[3] }}" class="textbox" disabled/></br></br>
+                        <input id="address" name="address" type="text" value="{{ result[4] }}" class="textbox" disabled/></br></br>
+                        <input id="id" name="id" type="text" value="{{ result[5] }}" class="textbox" disabled/></br></br>
+                        <input type="submit" class="btn" value="Done"></br>
+{#                        <input type="submit" class="btn" value="Update"></br>#}
+                    </form>
+                </h2>
+            </div>
+        </div>
+
+    {% elif session['log']=='adm' -%}
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+        <div align="center">
+            <div align="center" class="border">
+                <div class="header">
+                    <h1 class="word">Profile Edit</h1>
+                </div></br></br></br>
+                <h2 class="word">
+                    <form action="{{ url_for('admin') }}" method="get">
+                        <input id="username" name="username" type="text" value="{{ result[0] }}" class="textbox" disabled/></br></br>
+                        <input id="email" name="email" type="text" value="{{ result[1] }}" class="textbox" disabled/></br></br>
+                        <input id="password" name="password" type="password" value="{{ result[2] }}" class="textbox" disabled/></br></br>
+                        <input id="ssn" name="ssn" type="text" value="{{ result[3] }}" class="textbox" disabled/></br></br>
+                        <input id="address" name="address" type="text" value="{{ result[4] }}" class="textbox" disabled /></br></br>
+                        <input id="id" name="id" type="text" value="{{ result[5] }}" class="textbox" disabled/></br></br>
+                        <input type="submit" class="btn" value="Done"></br>
+{#                        <input type="submit" class="btn" value="Update"></br>#}
+                    </form>
+                </h2>
+            </div>
+        </div>
+    {% endif %}
+    </div>
+
+{% endblock %}
+
