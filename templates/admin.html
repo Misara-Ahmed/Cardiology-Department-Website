@@ -8,94 +8,26 @@
         alt="user" width="100">
         <h2> Admin</h2>
         <h4> Welcome </h4>
-        <div class="left-button">
-        <button> <a href="{{ url_for('add_patient') }}">Add patient</a><br></button><br>
-        </div>
-        <div class="right-button">
-        <button> <a href="{{ url_for('add_doctor') }}">Add doctor</a><br></button>
+        <div class="dropdown">
+          <button>Options</button>
+          <div class="dropdown-content">
+          <a href="{{ url_for('add_patient') }}">Add patient</a>
+          <a href="{{ url_for('add_doctor') }}">Add doctor</a>
+          <a href="http://127.0.0.1:5000/delete_patient"> Delete Patient</a>
+          <a href="http://127.0.0.1:5000/delete_doctor">Delete Dr</a>
+          <a href="http://127.0.0.1:5000/edit_patient">Edit Patient</a>
+          <a href="http://127.0.0.1:5000/edit_doctor">Edit Dr</a>
+          </div>
         </div>
             </div>
-    <div class="right">
-      <form>
-        <div class="edit-doct">
-          <button formmethod="get" type="submit" formaction="{{ url_for('edit_doctor') }}">
-                      Edit Dr
-          </button>
-
-          <button formmethod="post" type="submit" formaction="{{ url_for('delete_doctor') }}">
-                      Delete Dr
-          </button>
-        </div>
-      </form>
-      <form >
-          <div class= "edit-patient">
-             <button formmethod="get" type="submit" formaction="{{ url_for('edit_patient') }}">
-                      Edit Patient
-             </button>
-
-          <button formmethod="post" type="submit" formaction="{{ url_for('delete_patient') }}">
-                      Delete Patient
-          </button>
-         </div>
-      </form>
-      <div class="right-top">
-        <button id="patient" class="btn" name="patient" onclick="patient()">patient</button>
-        <button id="doctor" class="btn" name="doctor" onclick="doctor()">doctor</button>
-        <div id="pointer-btn"></div>
-      </div>
+    <div class="right"> 
         <div class="info">
-          <form id="patient-form">
-            <table class="table2">
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Email</th>
-                  <th>Password</th>
-                  <th>SSN</th>
-                  <th>address</th>
-                  <th>id</th>
-                </tr>
-              <tbody>
-                {%for r in patient%}
-                <tr>
-                  <td>{{r.0}}</td>
-                  <td>{{r.1}}</td>
-                  <td>{{r.2}}</td>
-                  <td>{{r.3}}</td>
-                  <td>{{r.4}}</td>
-                  <td>{{r.5}}</td>
-                </tr>
-                 {% endfor %}
-              </tbody>
-            </table>
-          </form>
-
-          <form id="doctor-form">
-              <table class="table1">
-      <thead>
-        <tr>
-          <th>User</th>
-          <th>Email</th>
-          <th>Password</th>
-          <th>SSN</th>
-          <th>address</th>
-          <th>id</th>
-        </tr>
-
-      <tbody>
-        {%for r in doctor%}
-        <tr>
-          <td>{{r.0}}</td>
-          <td>{{r.1}}</td>
-          <td>{{r.2}}</td>
-          <td>{{r.3}}</td>
-          <td>{{r.4}}</td>
-          <td>{{r.5}}</td>
-        </tr>
-         {% endfor %}
-      </tbody>
-              </table>
-          </form>
+          <button> <a href="{{ url_for('veiw') }}">.</a><br></button>
+          <h3> Informations</h3>
+        </div>
+        <div class="info1">
+          <button> <a href="{{ url_for('veiw') }}">.</a><br></button>
+          <h3> Veiw</h3>
         </div>
       </div>
     </div>
