@@ -2,7 +2,13 @@
 {% extends "base.html" %}
 {% block title %}About{% endblock %} {% block body%}
     <link rel="stylesheet" href="{{ url_for('static',filename='css/admin.css') }}">
-	
+{#	{% with messages = get_flashed_messages() %}#}
+{#         {% if messages %}#}
+{#               {% for message in messages %}#}
+{#                    <p>{{ message }}</p>#}
+{#               {% endfor %}#}
+{#         {% endif %}#}
+{#    {% endwith %}#}
 
 <div class="wrapper">
     <div class="left">
@@ -25,7 +31,7 @@
           </tbody>
         </table>
         <div class="left-button">
-        <button> <a href="{{ url_for('appoint') }}">appointment</a><br></button><br>
+        <button> <a href="{{ url_for("appointment") }}">appointment</a><br></button><br>
       </div>
       </div>
     <div class="right">

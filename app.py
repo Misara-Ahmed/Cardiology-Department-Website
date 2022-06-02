@@ -33,6 +33,7 @@ def home():
 @app.route("/login", methods =['GET', 'POST'])
 def login():
     if request.method == 'POST' and 'id' in request.form and 'password' in request.form:
+        session.clear()
         idd = request.form['id']
         password = request.form['password']
         #print(type(idd))
@@ -45,6 +46,7 @@ def login():
             for x in account:
                 if (str(x[0]) == idd and x[1] == password):
                     #print("TRUE")
+                    flash("Logged in successfuly")
                     return redirect(url_for("patient"))
             # return render_template("login.html")
         elif (idd[0] == str(2)):
@@ -67,6 +69,7 @@ def login():
             for x in account:
                 if (str(x[0]) == idd and x[1] == password):
                     #print("TRUE")
+                    flash("Logged in successfuly")
                     return redirect(url_for("admin"))
         #print("False")
     else:
@@ -90,7 +93,7 @@ def register():
         password = request.form['password']
         ssn = request.form['ssn']
         address = request.form['address']
-        id= request.form['id']
+        id = request.form['id']
         # Conditions on entering the attributes in the database
         if len(email) < 2:
             flash('Email must be greater than 4 characters.', category='error')
@@ -100,16 +103,26 @@ def register():
             flash('Password must be at least 4 characters.', category='error')
         elif len(address) < 2:
             flash('Address must be greater than 2 character.', category='error')       
-        else:
-            # if all inputs are right -> start creating the account    
-            sql = "INSERT INTO admin (user_name,email,password,ssn,address,id) VALUES (%s, %s, %s,%s,%s,%s)"
-            # Add new admin
-            val = (user_name,email,password,ssn,address,id)
-            mycursor.execute(sql, val)
-            # commit the changes in database
-            mydb.commit()
-            #flash('Account successfully created', category='success')
-    return render_template('register.html')
+        else: # if all inputs are right -> start creating the account
+            if id[0] == str(2) : # Adding new doctor
+                sql = "INSERT INTO doctor (user_name,email,password,ssn,address,id) VALUES (%s, %s, %s,%s,%s,%s)"
+                val = (user_name,email,password,ssn,address,id)
+                mycursor.execute(sql, val)
+                mydb.commit() # commit the changes in database
+                #flash('Dr Account successfully created', category='success')
+                return render_template('register.html')
+            elif id[0] == str(3) :  #Adding new patient
+                sql = "INSERT INTO patient (user_name,email,password,ssn,address,id) VALUES (%s, %s, %s,%s,%s,%s)"
+                val = (user_name,email,password,ssn,address,id)
+                mycursor.execute(sql, val)
+                mydb.commit() # commit the changes in database
+                #flash('Patient Account successfully created', category='success')
+                return render_template('register.html')
+            else :
+                #flash('Id is not correct', category='success')
+                return render_template('register.html')
+    else:
+        return render_template('register.html')
 ##########################################################################################################
 @app.route('/adveiw', methods=['GET','POST'])
 def veiw():
@@ -262,7 +275,7 @@ def edit_doctor():
         return redirect(url_for("admin"))
 
 ###########################################  View Page #########################################################
-@app.route('/view', methods=['GET','POST'])
+@app.route('/view_doc', methods=['GET','POST'])
 def doctor_profile():
     mycursor = mydb.cursor()
     d_id = session["d_id"]
@@ -275,7 +288,7 @@ def doctor_profile():
     else :
         return render_template('admin.html')
 ################################################ View
-@app.route('/view', methods=['GET','POST'])
+@app.route('/view_pat', methods=['GET','POST'])
 def patient_profile():
     mycursor = mydb.cursor()
     p_id = session["p_id"]
@@ -288,7 +301,7 @@ def patient_profile():
     else :
         return render_template('admin.html')
 ##############################################################
-@app.route('/view', methods=['GET','POST'])
+@app.route('/view_adm', methods=['GET','POST'])
 def admin_profile():
     mycursor = mydb.cursor()
     a_id = session["a_id"]
@@ -300,6 +313,25 @@ def admin_profile():
 
     else :
         return render_template('admin.html')
+
+##############################################################################################################################################################
+@app.route('/appointment', methods=['GET', 'POST'])
+def appointment():
+    if request.method == 'POST' and 'patient_name' in request.form and 'dr_name' in request.form and 'id' in request.form and 'description' in request.form and 'date' in request.form:
+        patient_name = request.form['patient_name']
+        dr_name = request.form['dr_name']
+        id = request.form['id']
+        description = request.form['description']
+        date = request.form['date']
+
+        sql = "INSERT INTO appointment(patient_name, dr_name,id,description,date) VALUES (%s, %s, %s,%s,%s)"
+        val = (patient_name, dr_name, id, description, date)
+        mycursor.execute(sql, val)
+        mydb.commit()
+        return render_template('appointment.html')
+
+    else:
+        return render_template("appointment.html")
 ########################################### Doctors Page ########################################################
 @app.route( '/doctor' , methods=['GET','POST'])
 def doctor():
