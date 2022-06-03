@@ -48,24 +48,59 @@ a{
 }
 .header{
     position: relative;
-    padding: 5px 120px;
+    padding: 20px 60px;
     text-align: center;
-   top: -20%;
+   top: 0%;
    color: #FFFFFF;
+}
+.alert{
+    position:relative;
+    height: 10vh;
+    text-justify:auto;
+    width: 22vh;
+    left: 80%;
+    transform: translateY(470%);
+    background-color: #e1e9f7af;
+    border: 2px solid #003659;
+    color:#003659;
+    border-radius: 5px;
+}
+.reg_label{
+    display: inline-block;
+    margin-bottom: 10%;
+}
+
+.formtext {
+    display: inline-block;
+    /* flex-direction: row; */
+    width: 75%;
+    padding: 2% 10%;
+    float: right;
+    width: 65%;
+    margin-top: -5%;
+    margin-left: 25%;
+    border-radius: 6px;
+    background-color: #fcfcfcc4;
+}
+
+.formlabel {
+  float: left;
+  width: 35%;
+  margin-top: 5%;
 }
 
 .border{
     transform: translateY(20%);
-    padding: 80px 50px;
-    width: 350px;
-    height: 500px;
+    padding: 15px 50px;
+    width: 400px;
+    height: 600px;
     border: 2px solid #003659;
     border-radius: 6px;
     background-color: #003659;
 }
 
 .btn {
-    transform: translateY(-370%);
+    transform: translateY(0%);
     padding: 10px 40px;
     background-color: #ffffffb7; 
     color: #03042e;
@@ -76,12 +111,12 @@ a{
 
 .textbox{
     
-    transform: translateY(-310%);
+    transform: translateY(0%);
     padding: 10px 40px;
-    
     background-color: #ffffffc0; 
     text-color: #fafafac7;
     border-radius: 10px;
+    margin-bottom: 10%;
 }
       
 ::placeholder {
