@@ -3,6 +3,10 @@ from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
 import mysql.connector
+from werkzeug.utils import secure_filename, send_from_directory
+import os
+from datetime import datetime
+
 
 ##################################### Connecting to the database ####################################################
 mydb = mysql.connector.connect(
@@ -19,6 +23,59 @@ app.secret_key = "super secret key"
 mysql = MySQL(app)
 # app.config["SESSION_PERMANENT"] = False
 # app.config["SESSION_TYPE"] = "filesystem"
+
+########################################################################################################################
+UPLOAD_FOLDER = 'static/uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+#app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route("/upload", methods=["POST", "GET"])
+def upload():
+    #cursor = mysql.connection.cursor()
+    #cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    now = datetime.now()
+    if request.method == 'POST' and 'patient_id' in request.form:
+        patient_id = request.form['patient_id']
+        files = request.files.getlist('files[]')
+        # print(files)
+        for file in files:
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                full_filename = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                mycursor.execute("INSERT INTO patient_records (patient_id, file_name, uploaded_on) VALUES (%s, %s, %s)", [patient_id, filename, now])
+                mydb.commit()
+                mycursor.execute("SELECT file_name FROM patient_records ")
+                img_files= mycursor.fetchall()
+                #cur.close()
+                flash('File(s) successfully uploaded')
+                #return render_template("display_img.html", img_files=img_files)
+                return render_template("index.html")
+    else:
+        return render_template('index.html')
+###########################################################################################################
+@app.route("/view_rec", methods=["POST", "GET"])
+def view_rec():
+    if request.method == 'GET':
+        pat_id = session['p_id']
+        mycursor.execute("SELECT patient_id FROM patient_records")
+        ids = mycursor.fetchall()
+        for x in ids:
+            if ( x[0] == int(pat_id) ):
+                print("yes")
+                mycursor.execute("SELECT * FROM patient_records WHERE patient_id = %s", (pat_id,))
+                record = mycursor.fetchone()
+                #print(record)
+                full_filename = os.path.join(app.config['UPLOAD_FOLDER'], record[1] )
+                return render_template("display_img.html", image=full_filename)
+        return render_template("display_img.html")
+##############################################################################################################
 ##################################### The Main Page ####################################################
 @app.route('/')
 def main():
@@ -315,23 +372,72 @@ def admin_profile():
         return render_template('admin.html')
 
 ##############################################################################################################################################################
-@app.route('/appointment', methods=['GET', 'POST'])
+# @app.route('/appointment', methods=['GET', 'POST'])
+# def appointment():
+#     if request.method == 'POST' and 'patient_name' in request.form and 'dr_name' in request.form and 'id' in request.form and 'description' in request.form and 'date' in request.form:
+#         patient_name = request.form['patient_name']
+#         dr_name = request.form['dr_name']
+#         id = request.form['id']
+#         description = request.form['description']
+#         date = request.form['date']
+#
+#         sql = "INSERT INTO appointment(patient_name, dr_name,id,description,date) VALUES (%s, %s, %s,%s,%s)"
+#         val = (patient_name, dr_name, id, description, date)
+#         mycursor.execute(sql, val)
+#         mydb.commit()
+#         return render_template('appointment.html')
+#
+#     else:
+#         return render_template("appointment.html")
+################################################################################################################
+@app.route('/appointment', methods =['GET', 'POST'])
 def appointment():
-    if request.method == 'POST' and 'patient_name' in request.form and 'dr_name' in request.form and 'id' in request.form and 'description' in request.form and 'date' in request.form:
-        patient_name = request.form['patient_name']
+    if request.method == 'POST' and 'patient_name' in request.form and 'dr_name' in request.form  and 'id' in request.form and 'description' in request.form and 'date' in request.form :
+        patient_name= request.form['patient_name']
         dr_name = request.form['dr_name']
         id = request.form['id']
         description = request.form['description']
-        date = request.form['date']
-
-        sql = "INSERT INTO appointment(patient_name, dr_name,id,description,date) VALUES (%s, %s, %s,%s,%s)"
-        val = (patient_name, dr_name, id, description, date)
-        mycursor.execute(sql, val)
-        mydb.commit()
-        return render_template('appointment.html')
-
+        date= request.form['date']
+        mycursor.execute("SELECT user_name,id FROM patient")
+        account=mycursor.fetchall()
+        mycursor.execute("SELECT patient_name,id,date FROM appointment")
+        account2=mycursor.fetchall()
+        for y in account2:
+                    print(y[0])
+                    print(y[1])
+                    print(y[2])
+                    if(y[0]==patient_name or y[1]==int(id)):
+                        print("YES")
+                        flash("sorry :( you can not add another appointment.. ")
+                        return redirect(url_for("appointment.html"))
+                            #return render_template("appointment.html")
+                    else:
+                        if(y[2]==date):
+                            flash("sorry :( this date is not allowed.. ")
+                            return redirect(url_for("appointment"))
+                            #return render_template("appointment.html")
+                        else:
+                            for x in account:
+                                if(x[0]==patient_name):
+                                    if(x[1]==int(id)):
+                                        sql = "INSERT INTO appointment(patient_name, dr_name,id,description,date) VALUES (%s, %s, %s,%s,%s)"
+                                        val = (patient_name,dr_name,id,description,date)
+                                        mycursor.execute(sql, val)
+                                        mydb.commit()
+                                        return redirect(url_for("appointment"))
+                                        #return render_template('appointment.html')
+                                    else:
+                                            flash("please enter the correct id")
+                                            return redirect(url_for("appointment"))
+                                            #return render_template('appointment.html')
+                                else:
+                                        flash("please enter the correct name")
+                                        return redirect(url_for("appointment"))
+                                        #return render_template ('appointment.html')
     else:
+        #return redirect(url_for("appointment"))
         return render_template("appointment.html")
+
 ########################################### Doctors Page ########################################################
 @app.route( '/doctor' , methods=['GET','POST'])
 def doctor():
