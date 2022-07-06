@@ -1,4 +1,4 @@
-# Cardioology department app 
+# Cardiology department app 
 Team Members:
 >
 * Arwa Esam 
