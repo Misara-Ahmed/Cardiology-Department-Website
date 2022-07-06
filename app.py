@@ -1,18 +1,37 @@
+##################################### Cardiovascular Hospital Departement ###############################
+# TEAM:9 
+########## TEAM MEMBERS: ########## 
+# Rahma AbdEkhader        # Arwa Esam              # Misara Ahmed
+# Sama Mostafa            # Yousr Hejy             # Doha Eid
+##########################################################################################################
 from flask import Flask, render_template, request, redirect, url_for, session ,flash
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
 import mysql.connector
+from functools import wraps
 from werkzeug.utils import secure_filename, send_from_directory
 import os
 from datetime import datetime
 
+################################## Authorization Conditions ######################################################
+def is_logged_in(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        # if logged in -> Acess the Pages
+        # if not logged in -> return to the login Page
+        if "logged_in" in session:
+            return f(*args, **kwargs)
+        else:
+            flash('Not logged in!',category='error')   
+            return redirect(url_for('login'))    
+    return wrap   
 
 ##################################### Connecting to the database ####################################################
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  passwd="misara2468",
+  passwd="root_123_456_789",
   database="project"
 )
 mycursor = mydb.cursor()
@@ -43,7 +62,6 @@ def upload():
     if request.method == 'POST' and 'patient_id' in request.form:
         patient_id = request.form['patient_id']
         files = request.files.getlist('files[]')
-        # print(files)
         for file in files:
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
@@ -53,13 +71,11 @@ def upload():
                 mydb.commit()
                 mycursor.execute("SELECT file_name FROM patient_records ")
                 img_files= mycursor.fetchall()
-                #cur.close()
                 flash('File(s) successfully uploaded')
-                #return render_template("display_img.html", img_files=img_files)
                 return render_template("index.html")
     else:
         return render_template('index.html')
-###########################################################################################################
+##################################### View the Records ###########################################################
 @app.route("/view_rec", methods=["POST", "GET"])
 def view_rec():
     if request.method == 'GET':
@@ -68,15 +84,15 @@ def view_rec():
         ids = mycursor.fetchall()
         for x in ids:
             if ( x[0] == int(pat_id) ):
-                print("yes")
                 mycursor.execute("SELECT * FROM patient_records WHERE patient_id = %s", (pat_id,))
                 record = mycursor.fetchone()
-                #print(record)
+                mycursor.reset()
                 full_filename = os.path.join(app.config['UPLOAD_FOLDER'], record[1] )
                 return render_template("display_img.html", image=full_filename)
         return render_template("display_img.html")
 ##############################################################################################################
-##################################### The Main Page ####################################################
+
+########################################### The Main Page ####################################################
 @app.route('/')
 def main():
     return render_template('home.html')
@@ -86,102 +102,511 @@ def main():
 def home():
     return render_template('home.html')    
 
-##################################### The Login Page ####################################################
-@app.route("/login", methods =['GET', 'POST'])
-def login():
-    if request.method == 'POST' and 'id' in request.form and 'password' in request.form:
-        session.clear()
-        idd = request.form['id']
-        password = request.form['password']
-        #print(type(idd))
-        #print(idd[0])
-        if (idd[0] == str(3)):
-            session["p_id"] = idd
-            session['log'] = 'pat'
-            mycursor.execute("SELECT id,password FROM patient")
-            account = mycursor.fetchall()
-            for x in account:
-                if (str(x[0]) == idd and x[1] == password):
-                    #print("TRUE")
-                    flash("Logged in successfuly")
-                    return redirect(url_for("patient"))
-            # return render_template("login.html")
-        elif (idd[0] == str(2)):
-            session["d_id"] = idd
-            session['log'] = 'doc'
-            mycursor.execute("SELECT id,password FROM doctor")
-            account = mycursor.fetchall()
-            for x in account:
-                if (str(x[0]) == idd and x[1] == password):
-                    #print("TRUE")
-                    return redirect(url_for("doctor"))
-            # return render_template("login.html")
-        elif (idd[0] == str(1)):
-            #print("True")
-            session["a_id"] = idd
-            session['log'] = 'adm'
-            mycursor.execute("SELECT id,password FROM admin")
-            account = mycursor.fetchall()
-            #print(account)
-            for x in account:
-                if (str(x[0]) == idd and x[1] == password):
-                    #print("TRUE")
-                    flash("Logged in successfuly")
-                    return redirect(url_for("admin"))
-        #print("False")
-    else:
-      return render_template('login.html')
-
-# if check_password_hash(user.password, password):
-#                 flash('Logged in successfully!', category='success')
-#                 login_user(user, remember=True)
-#                 return redirect(url_for('views.home'))
-#             else:
-#                 flash('Incorrect password, try again.', category='error')
-#         else:
-#             flash('Email does not exist.', category='error')
-
-##################################### The Register Page ####################################################    
+####################################### The Register Page ####################################################    
 @app.route('/register', methods =['GET', 'POST'])
 def register():
+    # Registration Fields: user_name, email, password, ssn, address, id
     if request.method == 'POST' and 'username' in request.form and 'email' in request.form  and 'password' in request.form and 'ssn' in request.form and 'address' in request.form  and 'id' in request.form:
         user_name = request.form['username']
         email = request.form['email']
         password = request.form['password']
+        phone = request.form['phone']
+        salary = request.form['salary']
+        bdate = request.form['bdate']
         ssn = request.form['ssn']
         address = request.form['address']
-        id = request.form['id']
+        id= request.form['id']
         # Conditions on entering the attributes in the database
-        if len(email) < 2:
+        # Conditions on entering the attributes in the database
+        sql = 'SELECT * FROM admin WHERE email = %s OR password = %s OR ssn= %s OR id =%s'
+        val = (email,password,ssn,id)
+        mycursor.execute(sql, val)
+         # Fetch user's record
+        account = mycursor.fetchone()
+        mycursor.reset();
+         # If account exists show error and validation checks
+        if account:
+            flash('one of the fields duplicated!',category='error')
+            return render_template('register.html')
+        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
+            flash('Invalid email address!',category='error')
+            return render_template('register.html')
+        elif not email or not password or not id or not ssn:
+            flash('Fill out the Registration Form!')
+            return render_template('register.html')
+        elif len(email) < 2:
             flash('Email must be greater than 4 characters.', category='error')
+            return render_template('register.html')
         elif len(user_name) < 2:
             flash('Username must be greater than 2 character.', category='error')
+            return render_template('register.html')
         elif len(password) < 4:
             flash('Password must be at least 4 characters.', category='error')
+            return render_template('register.html')
+        elif len(phone) < 11:
+            flash('Phone is not correct', category='error')
+            return render_template('register.html')
+        elif len(salary) < 3:
+            flash('Salary is not correct', category='error')
+            return render_template('register.html')
+        elif len(bdate) < 6:
+            flash('Birthdate is not correct', category='error')
+            return render_template('register.html')
         elif len(address) < 2:
-            flash('Address must be greater than 2 character.', category='error')       
-        else: # if all inputs are right -> start creating the account
-            if id[0] == str(2) : # Adding new doctor
-                sql = "INSERT INTO doctor (user_name,email,password,ssn,address,id) VALUES (%s, %s, %s,%s,%s,%s)"
-                val = (user_name,email,password,ssn,address,id)
-                mycursor.execute(sql, val)
-                mydb.commit() # commit the changes in database
-                #flash('Dr Account successfully created', category='success')
-                return render_template('register.html')
-            elif id[0] == str(3) :  #Adding new patient
-                sql = "INSERT INTO patient (user_name,email,password,ssn,address,id) VALUES (%s, %s, %s,%s,%s,%s)"
-                val = (user_name,email,password,ssn,address,id)
-                mycursor.execute(sql, val)
-                mydb.commit() # commit the changes in database
-                #flash('Patient Account successfully created', category='success')
-                return render_template('register.html')
-            else :
-                #flash('Id is not correct', category='success')
-                return render_template('register.html')
+            flash('Address must be greater than 2 character.', category='error')
+            return render_template('register.html')
+       
+        else:
+           # if all condition of input fiels are true -> store the new account in the database
+           sql = "INSERT INTO admin (user_name,email,password,phone,salary,bdate,ssn,address,id) VALUES (%s, %s,%s ,%s,%s, %s,%s,%s,%s)"
+           val = (user_name,email,password,phone,salary,bdate,ssn,address,id)
+           mycursor.execute(sql, val)
+           mydb.commit()
+           flash('Account successfully created', category='success')
+    return render_template('register.html')
+
+##################################### The Login Page ####################################################
+@app.route("/login", methods =['GET', 'POST']) 
+def login():
+    if request.method == 'POST' and 'id' in request.form and 'password' in request.form:
+        # enter the required fields in login form
+        idd = request.form['id']
+        password = request.form['password']
+        if 'logged_in' in session:
+         session.clear()
+         flash("Logout First")
+         return render_template("login.html") 
+        if (idd[0] == str(3)):
+         sql = 'SELECT * FROM patient WHERE id = %s AND password = %s'
+         val = (idd, password)
+         mycursor.execute(sql, val)
+      # Fetch user's record
+         account = mycursor.fetchone()
+         mycursor.reset()
+      # Check if account exists in the database
+         if account:
+         #create session data
+             session['logged_in'] = True
+             session['p_id'] = idd
+             session['log'] = 'pat'
+             flash("signed in successfully!")
+             return redirect(url_for('patient'))
+         else:
+         # If account doesnt exist or email/password incorrect
+           flash('Your email or password were incorrect')
+           return render_template('login.html')
+        # incase ID starts with 2 -> login as doctor
+        elif (idd[0] == str(2)):
+         sql = 'SELECT * FROM doctor WHERE id = %s AND password = %s'
+         val = (idd, password)
+         mycursor.execute(sql, val)
+      # Fetch user's record
+         account = mycursor.fetchone()
+         mycursor.reset()
+      #check if account exists in the database
+         if account:
+         #create session data
+             session['logged_in'] = True
+             session['d_id'] = idd
+             session['dr_name'] = account[0]
+             session['log'] = 'doc'
+             flash("signed in successfully!")
+             return redirect(url_for('doctor'))
+         else:
+         #if account doesnt exist or email/password incorrect
+           flash('Your email or password were incorrect')
+           return render_template('login.html')   
+        # incase ID starts with 1 -> login as admin
+        elif (idd[0] == str(1)):
+         sql = 'SELECT * FROM admin WHERE id = %s AND password = %s'
+         val = (idd, password)
+         mycursor.execute(sql, val)
+      # Fetch user's record
+         account = mycursor.fetchone()
+         mycursor.reset()
+      #check if account exists in the database
+         if account:
+         # create session data
+             session['logged_in'] = True
+             session['a_id'] = idd
+             session['log'] = 'adm'
+             flash("signed in successfully!")
+             return redirect(url_for('admin'))
+         else:
+         # if account doesnt exist or email/password incorrect
+           flash('Your email or password were incorrect')
+           return render_template('login.html')
+        else:
+            flash('Your email or password were incorrect')
+            return render_template('login.html')
     else:
-        return render_template('register.html')
-##########################################################################################################
-@app.route('/adveiw', methods=['GET','POST'])
+      return render_template('login.html')
+
+####################################### Log Out ##########################################################
+@app.route('/logout')
+def logout():
+    session.pop('logged_in',None)
+    return redirect(url_for('home'))
+
+##################################### The Admin Page ####################################################
+@app.route('/admin', methods=['GET' , 'POST'])
+@is_logged_in
+def admin():
+    return render_template("admin.html")
+
+###################################### Edit Admin ######################################################
+@app.route('/edit_admin' , methods = ['GET', 'POST'])
+@is_logged_in
+def edit_admin():
+    mycursor = mydb.cursor()
+    a_id = session["a_id"]
+    if request.method == 'GET':
+        mycursor.execute("SELECT * FROM admin WHERE id = %s", (a_id,))
+        result = mycursor.fetchone()
+        row_headers = [x[1] for x in mycursor.description]
+        mycursor.reset()
+        return render_template('edit_admin.html', result=result)
+    elif request.method == 'POST':
+        user_name = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        phone = request.form['phone']
+        address = request.form['address']
+        mycursor.execute(
+            "UPDATE admin SET user_name = %s, email = %s, password = %s,phone = %s, address = %s  WHERE id = %s",
+            (user_name, email, password, phone ,address, a_id))
+        mydb.commit()
+        return redirect(url_for("admin"))
+
+####################################### Add doctor Page #######################################################       
+@app.route('/add_doctor', methods =['GET', 'POST'])
+@is_logged_in
+def add_doctor():
+    # the Admin have axcess to add new doctor
+    if request.method == 'POST' and 'username' in request.form and 'email' in request.form  and 'password' in request.form and 'ssn' in request.form and 'address' in request.form  and 'id' in request.form:
+        user_name = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        phone = request.form['phone']
+        salary = request.form['salary']
+        bdate = request.form['bdate']
+        wday = request.form['wday']
+        ssn = request.form['ssn']
+        address = request.form['address']
+        id= request.form['id']
+        sql = 'SELECT * FROM doctor WHERE email = %s OR password = %s OR ssn= %s OR id =%s'
+        val = (email,password,ssn,id,)
+        mycursor.execute(sql, val)
+         # Fetch user's record
+        account = mycursor.fetchone()
+        mycursor.reset()
+         # If account exists show error and validation checks
+        if account:
+            flash('Account already exists!',category='error')
+            return render_template('add_doctor.html')
+        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
+            flash('Invalid email address!',category='error')
+            return render_template('add_doctor.html')
+        elif not email or not password or not id or not ssn or not ssn:
+            flash('Fill out the Registration Form!')
+            return render_template('add_doctor.html')
+        elif len(email) < 2:
+            flash('Email must be greater than 4 characters.', category='error')
+            return render_template('add_doctor.html')
+        elif len(user_name) < 2:
+            flash('Username must be greater than 2 character.', category='error')
+            return render_template('add_doctor.html')
+        elif len(password) < 4:
+            flash('Password must be at least 4 characters.', category='error')
+            return render_template('add_doctor.html')
+        elif len(address) < 2:
+            flash('Address must be greater than 2 character.', category='error')
+            return render_template('add_doctor.html') 
+        else:
+          sql = "INSERT INTO doctor (user_name,email,password,ssn,address,id,phone,salary,bdate,work_day) VALUES (%s,%s,%s,%s,%s, %s, %s,%s,%s,%s)"
+          val = (user_name,email,password,ssn,address,id,phone,salary,bdate,wday)
+          mycursor.execute(sql,val)
+          mydb.commit()
+          return render_template('add_doctor.html')
+    else:
+        return render_template("add_doctor.html")
+
+############################################# Add Patient  ################################################################
+@app.route('/add_patient', methods =['GET', 'POST'])
+@is_logged_in
+def add_patient():
+    # the Admin have axcess to add new patient
+    if request.method == 'POST' and 'username' in request.form and 'email' in request.form  and 'password' in request.form and 'ssn' in request.form and 'address' in request.form  and 'id' in request.form:
+        user_name = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        phone = request.form['phone']
+        bdate = request.form['bdate']
+        ssn = request.form['ssn']
+        address = request.form['address']
+        id= request.form['id']
+        sql = 'SELECT * FROM patient WHERE email = %s OR password = %s OR ssn= %s OR id =%s'
+        val = (email,password,ssn,id,)
+        mycursor.execute(sql, val)
+         # Fetch user's record
+        account = mycursor.fetchone()
+        mycursor.reset()
+         # If account exists show error and validation checks
+        if account:
+            flash('Account already exists!',category='error')
+            return render_template('add_patient.html')
+        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
+            flash('Invalid email address!',category='error')
+            return render_template('add_patient.html')
+        elif not email or not password or not id or not ssn or not ssn:
+            flash('Fill out the Registration Form!')
+            return render_template('add_patient.html')
+        elif len(email) < 2:
+            flash('Email must be greater than 4 characters.', category='error')
+            return render_template('add_patient.html')
+        elif len(user_name) < 2:
+            flash('Username must be greater than 2 character.', category='error')
+            return render_template('add_patient.html')
+        elif len(password) < 4:
+            flash('Password must be at least 4 characters.', category='error')
+            return render_template('add_patient.html')
+        elif len(address) < 2:
+            flash('Address must be greater than 2 character.', category='error')
+            return render_template('add_patient.html')
+        else:
+            sql = "INSERT INTO patient (user_name,email,password,phone,bdate,ssn,address,id) VALUES (%s, %s, %s,%s,%s,%s,%s,%s)"
+            val = (user_name,email,password,phone,bdate,ssn,address,id)
+            mycursor.execute(sql, val)
+            mydb.commit()
+            return render_template('add_patient.html')
+    else:
+        return render_template("add_patient.html")
+        
+#############################################  Delete Doctor #################################################
+@app.route('/delete_doctor' , methods = ['GET', 'POST'])
+@is_logged_in
+def delete_doctor():
+    # the Admin have axcess to delete a doctor
+    if request.method == 'POST' and 'id' in request.form :
+        id = int(request.form['id'])
+        mycursor.execute("DELETE FROM doctor WHERE id = %s",(id,))
+        mydb.commit()
+        return render_template('delete_doctor.html')
+    else:
+        return render_template('delete_doctor.html')
+
+###########################################  Delete Patient ################################################
+@app.route('/delete_patient' , methods = ['GET', 'POST'])
+@is_logged_in
+def delete_patient():
+    # the Admin have axcess to delete a patient
+    if request.method == 'POST' and 'id' in request.form :
+        id = request.form['id']
+        mycursor.execute("DELETE FROM patient WHERE id = %s", (id,))
+        mydb.commit()
+        return render_template('delete_patient.html')
+    else :
+        return render_template('delete_patient.html')
+
+##############################################  Edit Patient #####################################################
+@app.route('/edit_patient' , methods = ['GET', 'POST'])
+@is_logged_in
+def edit_patient():
+    mycursor = mydb.cursor()
+    p_id = session["p_id"]
+    if request.method == 'GET':
+        mycursor.execute("SELECT * FROM patient WHERE id = %s" , (p_id,))
+        result = mycursor.fetchone()
+        row_headers = [x[1] for x in mycursor.description]
+        mycursor.reset()
+        print(row_headers)
+        print(result[0])
+        return render_template('edit_patient.html',result=result)
+    elif request.method =='POST':
+        user_name = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        phone = request.form['phone']
+        address = request.form['address']
+        mycursor.execute("UPDATE patient SET user_name = %s, email = %s, password = %s, phone= %s , address = %s  WHERE id = %s" ,
+        (user_name, email, password,phone, address, p_id))
+        mydb.commit()
+        return render_template('patient.html')
+
+########################################### Edit Doctor ######################################################
+@app.route('/edit_doctor' , methods = ['GET', 'POST'])
+@is_logged_in
+def edit_doctor():
+    mycursor = mydb.cursor()
+    d_id = session["d_id"]
+    if request.method == 'GET':
+        mycursor.execute("SELECT * FROM doctor WHERE id = %s", (d_id,))
+        result = mycursor.fetchone()
+        row_headers = [x[1] for x in mycursor.description]
+        mycursor.reset()
+        return render_template('edit_doctor.html', result=result)
+    elif request.method == 'POST':
+        user_name = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        phone = request.form['phone']
+        wday = request.form['wday']
+        address = request.form['address']
+        mycursor.execute(
+            "UPDATE doctor SET user_name = %s, email = %s, password = %s, phone= %s , work_day= %s , address = %s  WHERE id = %s",
+            (user_name, email, password,phone,address, wday,d_id))
+        mydb.commit()
+        return render_template('doctor.html')
+
+###########################################  Doctor Profile #########################################################
+@app.route('/view_doc', methods=['GET','POST'])
+@is_logged_in
+def doctor_profile():
+    mycursor = mydb.cursor()
+    d_id = session["d_id"]
+    if request.method == "GET":
+        mycursor.execute("SELECT * FROM doctor WHERE id = %s", (d_id,))
+        result = mycursor.fetchone()
+        row_headers = [x[1] for x in mycursor.description]
+        return render_template('profile.html', result=result)
+    else :
+        return render_template('doctor.html')
+
+################################################ Patient profile ################################################
+@app.route('/view_pat', methods=['GET','POST'])
+@is_logged_in
+def patient_profile():
+    mycursor = mydb.cursor()
+    p_id = session["p_id"]
+    if request.method == "GET":
+        mycursor.execute("SELECT * FROM patient WHERE id = %s" , (p_id,))
+        result = mycursor.fetchone()
+        row_headers = [x[1] for x in mycursor.description]
+        return render_template('profile.html', result=result)
+    else :
+        return render_template('patient.html')
+
+########################################### Admin profile ##################################################
+@app.route('/view_adm', methods=['GET','POST'])
+@is_logged_in
+def admin_profile():
+    mycursor = mydb.cursor()
+    a_id = session["a_id"]
+    if request.method == "GET":
+        mycursor.execute("SELECT * FROM admin WHERE id = %s", (a_id,))
+        result = mycursor.fetchone()
+        row_headers = [x[1] for x in mycursor.description]
+        return render_template('profile.html', result=result)
+    else :
+        return render_template('admin.html')        
+
+########################################### Patient Appointment ########################################################
+@app.route('/appointment', methods =['GET', 'POST'])
+@is_logged_in
+def appointment():
+    if request.method == 'POST' and 'patient_name' in request.form and 'dr_name' in request.form  and 'id' in request.form and 'description' in request.form and 'date' in request.form :
+        patient_name= request.form['patient_name']
+        dr_name = request.form['dr_name']
+        id= request.form['id']
+        description = request.form['description']
+        date= request.form['date']
+        sql = 'SELECT * FROM appointment WHERE id = %s'
+        val = (id,)
+        mycursor.execute(sql, val)
+         # Fetch user's record
+        account = mycursor.fetchone()
+        mycursor.reset()
+         # If account exists show error and validation checks
+        
+        if account:
+            flash('Appointment denied!',category='error')
+            return render_template('appointment.html')
+        elif not dr_name or not id or not id or not description or not date:
+            flash('Fill out the Registration Form!')
+            return render_template('appointment.html')
+        else:
+          sql = "INSERT INTO appointment(patient_name, dr_name,id,description,date) VALUES (%s, %s, %s,%s,%s)"
+          val = (patient_name,dr_name,id,description,date)
+          mycursor.execute(sql, val)
+          mydb.commit()
+          return render_template('appointment.html')
+    else:
+        return render_template("appointment.html")
+
+########################################### Doctors Page ########################################################
+@app.route( '/doctor', methods = ['GET', 'POST'])
+@is_logged_in
+def doctor():
+    return render_template("doctor.html")
+
+########################################### Patient Page ########################################################
+@app.route( '/patient', methods = ['GET', 'POST'])
+@is_logged_in
+def patient():
+    return render_template("patient.html")
+
+########################################### Appointement ########################################################
+@app.route('/appointment_table', methods=['GET','POST'])
+@is_logged_in
+def appointment_table():
+    mycursor=mydb.cursor()
+    patient_id= session["p_id"]
+    if request.method == "GET":
+       mycursor.execute("SELECT * FROM appointment WHERE id= %s ",(patient_id,))
+       p_result=mycursor.fetchone()
+       row_headers=[x[0] for x in mycursor.description]
+       mycursor.reset()
+    appointment={
+         'message':"data retrieved",
+         'rec':p_result,
+         'header':row_headers
+                   }
+    return render_template("appointment_table.html ",appointment=p_result)
+
+######################################### Table in Doctor #################################################
+@app.route('/appointment_table2', methods=['GET','POST'])
+@is_logged_in
+def appointment_table2():
+    mycursor=mydb.cursor()
+    doctor_name= session["dr_name"]
+    if request.method == "GET":
+       mycursor.execute("SELECT * FROM appointment WHERE dr_name= %s ",(doctor_name,))
+       d_result=mycursor.fetchall()
+       row_headers=[x[0] for x in mycursor.description]
+    d_appointment={
+         'message':"data retrieved",
+         'rec':d_result,
+         'header':row_headers
+                   }
+    return render_template("appointment_table2.html ",appointment1=d_result)
+
+
+
+
+########################################### Devices Page ########################################################
+@app.route('/devices')
+def devices():
+    return render_template('devices.html')
+########################################### veiwpat Page ########################################################
+@app.route('/veiwpat')
+@is_logged_in
+def veiwpat():
+    return render_template('veiwpat.html')
+
+########################################### veiw doct Page ########################################################
+@app.route('/veiwdoct')
+@is_logged_in
+def veiwdoct():
+    return render_template('veiwdoct.html')
+    
+########################################### About Page ########################################################
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+########################################### View Page #######################################################
+@app.route('/veiw')
+@is_logged_in
 def veiw():
     mycursor.execute("SELECT * FROM doctor")
     row_headers=[x[0] for x in mycursor.description]
@@ -200,276 +625,24 @@ def veiw():
          'header':row_headers
       }
     return render_template("veiw.html ",patient=patient_result,doctor=doctor_result)
-
-##################################### The Admin Page ####################################################
-@app.route('/admin', methods=['GET','POST'])
-def admin():
-   return render_template("admin.html")
-# def admin():
-#     mycursor.execute("SELECT * FROM doctor")
-#     row_headers=[x[0] for x in mycursor.description]
-#     doctor_result = mycursor.fetchall()
-#     doctor={
-#          'message':"data retrieved",
-#          'rec':doctor_result,
-#          'header':row_headers
-#       }
-#     mycursor.execute("SELECT * FROM patient")
-#     row_headers=[y[0] for y in mycursor.description]
-#     patient_result = mycursor.fetchall()
-#     patient={
-#          'message':"data retrieved",
-#          'rec':patient_result,
-#          'header':row_headers
-#       }
-#     return render_template("admin.html ",patient=patient_result,doctor=doctor_result)
-
-########################################### Add doctor Page ###################################################
-@app.route('/add_doctor', methods =['GET', 'POST'])
-def add_doctor():
-    if request.method == 'POST' and 'username' in request.form and 'email' in request.form  and 'password' in request.form and 'ssn' in request.form and 'address' in request.form  and 'id' in request.form:
-        user_name = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        ssn = request.form['ssn']
-        address = request.form['address']
-        id= request.form['id']
-        sql = "INSERT INTO doctor (user_name,email,password,ssn,address,id) VALUES (%s, %s, %s,%s,%s,%s)"
-        val = (user_name,email,password,ssn,address,id)
-        mycursor.execute(sql, val)
-        mydb.commit()
-        return render_template('add_doctor.html')
-    else:
-        return render_template("add_doctor.html")
-### Add Patient Page ###
-@app.route('/add_patient', methods =['GET', 'POST'])
-def add_patient():
-    if request.method == 'POST' and 'username' in request.form and 'email' in request.form  and 'password' in request.form and 'ssn' in request.form and 'address' in request.form  and 'id' in request.form:
-        user_name = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        ssn = request.form['ssn']
-        address = request.form['address']
-        id= request.form['id']
-        sql = "INSERT INTO patient (user_name,email,password,ssn,address,id) VALUES (%s, %s, %s,%s,%s,%s)"
-        val = (user_name,email,password,ssn,address,id)
-        mycursor.execute(sql, val)
-        mydb.commit()
-        return render_template('add_patient.html')
-
-    else:
-        return render_template("add_patient.html")
-#############################################  Delete Doctor #################################################
-@app.route('/delete_doctor' , methods = ['GET', 'POST'])
-def delete_doctor():
-    if request.method == 'POST' and 'id' in request.form :
-        id = int(request.form['id'])
-        mycursor.execute("DELETE FROM doctor WHERE id = %s",(id,))
-        mydb.commit()
-        return render_template('delete_doctor.html')
-
-    else :
-        return render_template('delete_doctor.html')
-###########################################  Delete Patient ################################################
-@app.route('/delete_patient' , methods = ['GET', 'POST'])
-def delete_patient():
-    if request.method == 'POST' and 'id' in request.form :
-        id = request.form['id']
-        mycursor.execute("DELETE FROM patient WHERE id = %s", (id,))
-        mydb.commit()
-        return render_template('delete_patient.html')
-
-    else :
-        return render_template('delete_patient.html')
-##############################################  Edit Dr #####################################################
-@app.route('/edit_patient' , methods = ['GET', 'POST'])
-def edit_patient():
-    mycursor = mydb.cursor()
-    p_id = session["p_id"]
-    if request.method == 'GET':
-        mycursor.execute("SELECT * FROM patient WHERE id = %s" , (p_id,))
-        result = mycursor.fetchone()
-        row_headers = [x[1] for x in mycursor.description]
-        #print(row_headers)
-        #print(result[0])
-        return render_template('edit_patient.html',result=result)
-    elif request.method =='POST':
-        user_name = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        #ssn = request.form['ssn']
-        address = request.form['address']
-        #id = request.form['id']
-        mycursor.execute("UPDATE patient SET user_name = %s, email = %s, password = %s, address = %s  WHERE id = %s" ,
-        (user_name, email, password, address, p_id))
-        mydb.commit()
-        return redirect(url_for("admin"))
-
-########################################### Edit Doctor ######################################################
-
-@app.route('/edit_doctor' , methods = ['GET', 'POST'])
-def edit_doctor():
-    mycursor = mydb.cursor()
-    d_id = session["d_id"]
-    if request.method == 'GET':
-        mycursor.execute("SELECT * FROM doctor WHERE id = %s", (d_id,))
-        result = mycursor.fetchone()
-        row_headers = [x[1] for x in mycursor.description]
-        #print(row_headers)
-        # print(result[0])
-        return render_template('edit_doctor.html', result=result)
-    elif request.method == 'POST':
-        user_name = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        # ssn = request.form['ssn']
-        address = request.form['address']
-        # id = request.form['id']
-        mycursor.execute(
-            "UPDATE doctor SET user_name = %s, email = %s, password = %s, address = %s  WHERE id = %s",
-            (user_name, email, password, address, d_id))
-        mydb.commit()
-        return redirect(url_for("admin"))
-
-###########################################  View Page #########################################################
-@app.route('/view_doc', methods=['GET','POST'])
-def doctor_profile():
-    mycursor = mydb.cursor()
-    d_id = session["d_id"]
-    if request.method == "GET":
-        mycursor.execute("SELECT * FROM doctor WHERE id = %s", (d_id,))
-        result = mycursor.fetchone()
-        row_headers = [x[1] for x in mycursor.description]
-        return render_template('profile.html', result=result)
-
-    else :
-        return render_template('admin.html')
-################################################ View
-@app.route('/view_pat', methods=['GET','POST'])
-def patient_profile():
-    mycursor = mydb.cursor()
-    p_id = session["p_id"]
-    if request.method == "GET":
-        mycursor.execute("SELECT * FROM patient WHERE id = %s", (p_id,))
-        result = mycursor.fetchone()
-        row_headers = [x[1] for x in mycursor.description]
-        return render_template('profile.html', result=result)
-
-    else :
-        return render_template('admin.html')
-##############################################################
-@app.route('/view_adm', methods=['GET','POST'])
-def admin_profile():
-    mycursor = mydb.cursor()
-    a_id = session["a_id"]
-    if request.method == "GET":
-        mycursor.execute("SELECT * FROM admin WHERE id = %s", (a_id,))
-        result = mycursor.fetchone()
-        row_headers = [x[1] for x in mycursor.description]
-        return render_template('profile.html', result=result)
-
-    else :
-        return render_template('admin.html')
-
-##############################################################################################################################################################
-# @app.route('/appointment', methods=['GET', 'POST'])
-# def appointment():
-#     if request.method == 'POST' and 'patient_name' in request.form and 'dr_name' in request.form and 'id' in request.form and 'description' in request.form and 'date' in request.form:
-#         patient_name = request.form['patient_name']
-#         dr_name = request.form['dr_name']
-#         id = request.form['id']
-#         description = request.form['description']
-#         date = request.form['date']
-#
-#         sql = "INSERT INTO appointment(patient_name, dr_name,id,description,date) VALUES (%s, %s, %s,%s,%s)"
-#         val = (patient_name, dr_name, id, description, date)
-#         mycursor.execute(sql, val)
-#         mydb.commit()
-#         return render_template('appointment.html')
-#
-#     else:
-#         return render_template("appointment.html")
-################################################################################################################
-@app.route('/appointment', methods =['GET', 'POST'])
-def appointment():
-    if request.method == 'POST' and 'patient_name' in request.form and 'dr_name' in request.form  and 'id' in request.form and 'description' in request.form and 'date' in request.form :
-        patient_name= request.form['patient_name']
-        dr_name = request.form['dr_name']
-        id = request.form['id']
-        description = request.form['description']
-        date= request.form['date']
-        mycursor.execute("SELECT user_name,id FROM patient")
-        account=mycursor.fetchall()
-        mycursor.execute("SELECT patient_name,id,date FROM appointment")
-        account2=mycursor.fetchall()
-        for y in account2:
-                    print(y[0])
-                    print(y[1])
-                    print(y[2])
-                    if(y[0]==patient_name or y[1]==int(id)):
-                        print("YES")
-                        flash("sorry :( you can not add another appointment.. ")
-                        return redirect(url_for("appointment.html"))
-                            #return render_template("appointment.html")
-                    else:
-                        if(y[2]==date):
-                            flash("sorry :( this date is not allowed.. ")
-                            return redirect(url_for("appointment"))
-                            #return render_template("appointment.html")
-                        else:
-                            for x in account:
-                                if(x[0]==patient_name):
-                                    if(x[1]==int(id)):
-                                        sql = "INSERT INTO appointment(patient_name, dr_name,id,description,date) VALUES (%s, %s, %s,%s,%s)"
-                                        val = (patient_name,dr_name,id,description,date)
-                                        mycursor.execute(sql, val)
-                                        mydb.commit()
-                                        return redirect(url_for("appointment"))
-                                        #return render_template('appointment.html')
-                                    else:
-                                            flash("please enter the correct id")
-                                            return redirect(url_for("appointment"))
-                                            #return render_template('appointment.html')
-                                else:
-                                        flash("please enter the correct name")
-                                        return redirect(url_for("appointment"))
-                                        #return render_template ('appointment.html')
-    else:
-        #return redirect(url_for("appointment"))
-        return render_template("appointment.html")
-
-########################################### Doctors Page ########################################################
-@app.route( '/doctor' , methods=['GET','POST'])
-def doctor():
-    return render_template("doctor.html")
-
-
-########################################### Patients Page ########################################################
-@app.route( '/patient' , methods=['GET','POST'])
-def patient():
-    return render_template("patient.html")
-
-
-
-########################################### Devices Page ########################################################
-@app.route('/devices')
-def devices():
-    return render_template('devices.html')
-
-########################################### About Page ########################################################
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
-########################################### Contact us Page ########################################################
-@app.route('/contactus')
+   
+########################################### contact us ########################################################
+@app.route( '/contactus' , methods=['GET','POST'])
 def contact():
-
+    if request.method == 'POST' and 'user_name' in request.form and 'email' in request.form  and 'phone' in request.form and 'message' in request.form:
+        user_name = request.form['user_name']
+        email = request.form['email']
+        phone = request.form['phone']
+        message= request.form['message']
+        # Enter the message into the database  
+        sql = "INSERT INTO contact(user_name,email,phone,message) VALUES (%s, %s, %s,%s)"
+        val = (user_name,email,phone,message)
+        mycursor.execute(sql, val)
+        # commit the changes in contact database
+        mydb.commit()
     return render_template('contactus.html')
-
-
-
 
 ####################################### Starting the website ##################################################33
 if __name__ == '__main__':
     app.run(debug=True)
+
