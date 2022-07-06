@@ -1,4 +1,4 @@
-# Cardioplogy departyement app 
+# Cardioology department app 
 Team Members:
 >
 * Arwa Esam 
@@ -40,14 +40,14 @@ password, id
 * Edit doctor
 * Edit patient
 >Explanation:
->it allows anyone of the users to edit any information in thier profile
+>it allows anyone of the users to edit any information in their profile
 >
 * Delete doctor
 * Delete patient
 >Explanation:
 >it allows admin to delete profile of doctor or patient from the system permenantly
 >
-* Appointement page
+* Appointment page
 1. create appointment:
 >needed information: 
 >patient name, doctor name, id of the patient, describtion of what the patient need  
@@ -64,7 +64,7 @@ password, id
 > 
 * profile page  
 >Explanation:
->it shows the information of each user in cardiology departement
+>it shows the information of each user in cardiology department
 > 
 * Additional page  
 >Home page, Devices page, About us, Contact us
