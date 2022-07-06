@@ -1,40 +1,31 @@
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title> Create appointment </title>
+{% extends "base.html" %} 
+{% block title %}REGISTER{% endblock %} {% block body%}
         <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
     </head>
     <body></br></br></br></br></br>
         <div align="center">
-          <div align="center" class="border">
+          <div align="center" class="border_app">
              <div class="header">
-                <h1 class="word">Create appointment</h1>
+                <h1 class="word">Create Appointment</h1>
              </div></br></br></br>
             <h2 class="word">
                 <form method="post">
-
-
-                    <input id="patient_name" name="patient_name" type="text" placeholder="Enter patient name" class="textbox"/></br></br>
-                    <input id="dr_name" name="dr_name" type="text" placeholder="Enter doctor name" class="textbox"/></br></br>
-                    <input id="id" name="id" type="text" placeholder="Enter patient ID" class="textbox"/></br></br>
-                    <input id="description" name="description" type="text" placeholder="Appointment description " class="textbox"/></br></br>
-                    <input id="date" name="date" type="text" placeholder="set your appointment date" class="textbox"/></br></br>
-
-
-                    <input type="submit" class="btn" value="Sign Up"></br>
-                    <input type="submit" class="btn" value="Sign Up"></br>
-                    <button type="submit" formaction="{{ url_for('patient') }}">
+                    <input id="patient_name" name="patient_name" type="text" placeholder="Enter patient name" class="textbox_app"/></br></br>
+                    <input id="dr_name" name="dr_name" type="text" placeholder="Enter doctor name" class="textbox_app"/></br></br>
+                    <input id="id" name="id" type="number" placeholder="Enter patient ID" class="textbox_app"/></br></br>
+                    <input id="description" name="description" type="text" placeholder="Appointment description " class="textbox_app"/></br></br>
+                    <label for="date">date</label>
+                    <input type="date" class="data" name="date" required/>
+                    <button type="submit" class="btn_app" formaction="{{ url_for('patient') }}">
                         Done
                     </button>
-
-                    <button type="submit" formaction="{{ url_for('appointment') }}">
+                    <button type="submit"  class="btn_app" formaction="{{ url_for('appointment') }}">
                         Add
                     </button>
-
+                    
                 </form>
             </h2>
 
           </div>
         </div>
-    </body>
-</html>
+ {%endblock%}

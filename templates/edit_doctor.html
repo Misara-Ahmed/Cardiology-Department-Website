@@ -1,22 +1,23 @@
 {% extends "base.html" %}
 {% block title %}Edit Profile{% endblock %} {% block body%}
-
+<!------------------------------------------------------ Edit Doctor html file  ------------------------------------------------------------------>
 <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
 <div align="center">
-    <div align="center" class="border">
+    <div align="center" class="border_ed_dr">
        <div class="header">
           <h1 class="word">Profile Edit</h1>
+          <h6 class="update">You can update your profile</h6>
        </div></br></br></br>
       <h2 class="word">
           <form action="{{ url_for('edit_doctor') }}" method="post">
 
-              <input id="username" name="username" type="text" value="{{ result[0] }}" class="textbox"/></br></br>
-              <input id="email" name="email" type="text" value="{{ result[1] }}" class="textbox"/></br></br>
-              <input id="password" name="password" type="password" value="{{ result[2] }}" class="textbox"/></br></br>
-{#              <input id="ssn" name="ssn" type="text" value="{{ result[3] }}" class="textbox"/></br></br>#}
-              <input id="address" name="address" type="text" value="{{ result[4] }}" class="textbox"/></br></br>
-{#              <input id="id" name="id" type="text" value="{{ result[5] }}" class="textbox"/></br></br>#}
-              <input type="submit" class="btn" value="Update"></br>
+              <input id="username" name="username" type="text" value="{{ result[0] }}" placeholder="UserName" class="textbox_ed_dr"/></br></br>
+              <input id="email" name="email" type="text" value="{{ result[1] }}" placeholder="Email" class="textbox_ed_dr"/></br></br>
+              <input id="password" name="password" type="password" value="{{ result[2] }}" placeholder="Password" class="textbox_ed_dr"/></br></br>
+              <input id="phone" name="phone" type="number" value="{{ result[8] }}" placeholder="Phone Number" class="textbox_ed_dr"/></br></br>
+              <input id="address" name="address" type="text" value="{{ result[4] }}" placeholder="Address" class="textbox_ed_dr"/></br></br>
+              <input id="wday" name="wday" type="text" value="{{ result[9] }}"placeholder="Work Day" class="textbox_ed_dr"/></br></br>
+              <input type="submit" class="btn_ed_dr" value="Update"></br>
           </form>
       </h2>
 

@@ -4,65 +4,68 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>page title</title>
+    <title>Cardiology Dep</title>
   </head>
   <body>
-  <div style="display: block">
-    <nav style="display: block" class="navlist">
+    <nav class="navlist">
+     
       <ul>
-
-          <li ><a href="/home">HOME </a></li>
-          <li><a href="/login">LOGIN</a></li>
-          <li><a href="/register">REGISTER</a></li>
-          <li><a href="/devices">DEVICES</a></li>
-          <li> <a href="/about">ABOUT </a></li>
-          <li><a href="/contactus">CONTACT US</a></li>
+          <li>
+            
+    </li>
+    <!-- Navbar -->
+          <li><a class="nav-btn" href="/home">HOME </a></li>
+          <li><a class="nav-btn" href="/login">LOGIN</a></li>
+          <li><a class="nav-btn" href="/logout">LOGOUT</a></li>
+          <li><a class="nav-btn" href="/register">REGISTER</a></li>
+          <li><a class="nav-btn" href="/devices">DEVICES</a></li>
+          <li><a class="nav-btn" href="/about">ABOUT </a></li>
+          <li><a class="nav-btn" href="/contactus">CONTACT US</a></li>
       </ul>
     </nav>
-  </div>
-  <div>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                {% if category == 'error' %}
-                    <div class="alert alert-danger alter-dismissable fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="close" data-dismiss="alert">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                {% else %}
-                    <div class="alert alert-success alter-dismissable fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="close" data-dismiss="alert">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
+   
+    {% with messages = get_flashed_messages(with_categories=true) %} 
+    {% if messages %} 
+    {% for category, message in messages %} 
+    {% if category == 'error' %}
+    <div class="alert alert-danger alter-dismissable fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% else %}
+    <div class="alert alert-success alter-dismissable fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endif %} 
+    {% endfor %} 
+    {% endif %} 
     {% endwith %}
-  </div>
+
     {% block body %} {% endblock %}
-    <script>
+    <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
       crossorigin="anonymous"
-    </script>
-    <script>
+    ></script>
+    <script
       src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
       integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
       crossorigin="anonymous"
-    </script>
-    <script>
+    ></script>
+    <script
       src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
-    </script>
+    ></script>
 
-    <script>
+    <script
       type="text/javascript"
       src="{{ url_for('static', filename='index.js') }}"
-    </script>
+    ></script>
   </body>
 </html>

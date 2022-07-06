@@ -1,22 +1,29 @@
-   
 {% extends "base.html" %} 
 {% block title %}Login{% endblock %} {% block body%}
-
+<!-- -------------------------------------------------login page html file  --------------------------------------------------------------- -->
 <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
 <div align="center">
+  <div class="container">
+   <!-- photo section  -->
+    <div class="image"></div>
+    <!-- form section  -->
   <div align="center" class="border">
+    <!-- header of form (login word) -->
      <div class="header">
         <h1 class="word">Login</h1>
      </div></br></br></br>
     <h2 class="word">
         <form action="{{ url_for('login') }}" method="post">
           <div class="msg">{{ msg }}</div>
-            <input id="id" name="id" type="text" placeholder="Enter Your Id" class="textbox"/></br></br>
-            <input id="password" name="password" type="password" placeholder="Enter Your Password" class="textbox"/></br></br></br>
-            <input type="submit" class="btn" value="Sign In"></br></br>
-        </form>
+          <i class="login__icon fas fa-user"></i>
+            <input id="id" name="id" type="number" placeholder="Enter Your Id" class="textbox"/></br></br>
+            <input id="password" name="password" type="password" placeholder="Enter Your Password" class="textbox"/></br></br>
+            <input type="submit" class="btn" value="Log In"></br></br>
+            <span class="circle one"></span>
+            <span class="circle two"></span>
+          </form>
     </h2>
-    <p class="bottom">Dont't have an account?  <a class="bottom" href="{{url_for('register')}}"> Sign Up here</a></p>
+    <p class="bottom">Dont't have an account? <br> <a class="bottom" href="{{url_for('register')}}"> Register Here</a></p>
   </div>
 
 {% endblock %}

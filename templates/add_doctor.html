@@ -1,29 +1,31 @@
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title> Add Doctor </title>
+{% extends "base.html" %} 
+{% block title %}REGISTER{% endblock %} {% block body%}
+<!--------------------------------------------------- Add Doctor html file  ------------------------------------------------------------------>
         <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
     </head>
     <body></br></br></br></br></br>
         <div align="center">
-          <div align="center" class="border">
+          <div align="center" class="border_doc">
              <div class="header">
                 <h1 class="word">Add Doctor</h1>
              </div></br></br></br>
-            <h2 class="word">
-                <form  method="post">
+            <h2 class="word_doctor">
+                <form action="{{ url_for('add_doctor') }}" method="post">
 
-                    <input id="username" name="username" type="text" placeholder="Enter Your Username" class="textbox"/></br></br>
-                    <input id="email" name="email" type="text" placeholder="Enter Your Email" class="textbox"/></br></br>
-                    <input id="password" name="password" type="password" placeholder="Enter Your Password" class="textbox"/></br></br>
-                    <input id="ssn" name="ssn" type="text" placeholder="Enter Your SSN" class="textbox"/></br></br>
-                    <input id="address" name="address" type="text" placeholder="Enter Your Aaddress" class="textbox"/></br></br>
-                    <input id="id" name="id" type="text" placeholder="Enter Your ID" class="textbox"/></br></br>
-                     <button type="submit" formaction="{{ url_for('admin') }}">
+                    <input id="username" name="username" type="text" placeholder="Enter Your Username" class="textbox_doc"/></br>
+                    <input id="email" name="email" type="text" placeholder="Enter Your Email" class="textbox_doc_first"/></br>
+                    <input id="password" name="password" type="password" placeholder="Enter Your Password" class="textbox_doc"/></br>
+                    <input id="phone" name="phone" type="number" placeholder="Enter Your Phone" class="textbox_doc_first"/></br>
+                    <input id="salary" name="salary" type="number" placeholder="Enter Your Salary" class="textbox_doc"/></br>
+                    <input id="bdate" name="bdate" type="text" placeholder="Enter Your Birthdate" class="textbox_doc_first"/></br>
+                    <input id="wday" name="wday" type="text" placeholder="Enter Your working day" class="textbox_doc"/></br>
+                    <input id="ssn" name="ssn" type="number" placeholder="Enter Your SSN" class="textbox_doc_first"/></br>
+                    <input id="address" name="address" type="text" placeholder="Enter Your Address" class="textbox_doc"/></br>
+                    <input id="id" name="id" type="number" placeholder="Enter Your ID" class="textbox_doc_first"/></br>
+                     <button type="submit" class="btn_doc" formaction="{{ url_for('admin') }}">
                         Done
                     </button>
-
-                    <button type="submit" formaction="{{ url_for('add_doctor') }}">
+                    <button type="submit" class="btn_doc" formaction="{{ url_for('add_doctor') }}">
                         Add
                     </button>
                 </form>
@@ -31,5 +33,4 @@
 
           </div>
         </div>
-    </body>
-</html>
+ {%endblock%}

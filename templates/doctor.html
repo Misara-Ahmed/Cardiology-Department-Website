@@ -1,26 +1,28 @@
 {% extends "base.html" %}
 {% block title %}About{% endblock %} {% block body%}
+<!------------------------------------------------------------ Doctor html file  ----------------------------------------------------------------->
     <link rel="stylesheet" href="{{ url_for('static',filename='css/doctor.css') }}">
 	<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 <div class="wrapper">
     <div class="left">
-        <h2> Doctor</h2>
-        <h4> Welcome </h4>
+        <h1> Doctor</h1>
+        <h3 class="head"> Welcome </h3>
         <div class="dropdown">
           <button>Options</button>
           <div class="dropdown-content">
-          <a href="{{ url_for('appointment') }}">appointment</a>
+          <!-- <a href="{{ url_for('appointment') }}">appointment</a> -->
+          <a href="http://127.0.0.1:5000/edit_doctor">Edit Dr</a>
           </div>
         </div>
     </div>
     <div class="right">
       <div class="info">
-        <h3> Profile</h3>
-      <button> <a href="{{ url_for('doctor_profile') }}">.</a><br></button>
+        <h3 class="app">Appointment</h3>
+      <button> <a href="{{ url_for('appointment_table2') }}">...............................</a><br></button>
     </div>
     <div class="info1">
-        <h3> Appointment</h3>
-      <button> <a href="{{ url_for('appointment') }}">.</a><br></button>
+        <h3 class="pro">Profile</h3>
+      <button> <a href="{{ url_for('doctor_profile') }}">..................................</a><br></button>
     </div>
       </div>
             

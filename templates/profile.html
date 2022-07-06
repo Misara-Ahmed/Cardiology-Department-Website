@@ -4,12 +4,16 @@
 {% block body%}
 {#    cscscs#}
     <div xmlns="http://www.w3.org/1999/html">
+<!------------------------------------------------------ section of Doctor profile -------------------------------------------------------------->
     {% if session['log'] == 'doc' -%}
-        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/profile.css') }}">
         <div align="center">
-            <div align="center" style="width: 600px !important;" class="border">
+            <div class="container">
+                <!-- photo section  -->
+                 <div class="image"></div>
+            <div align="center" style="width: 600px !important; height: 750px !important;" class="border">
                 <div> {#class="header"#}
-                    <h1 class="word">Profile</h1>
+                    <h1 class="word">Personal Info</h1>
                 </div>
                 <div>
                     <form style="display: flex; flex-direction: column" class="word" action="{{ url_for('doctor') }}" method="get">
@@ -23,20 +27,36 @@
                             <input class="formtext" id="email" name="email" type="text" value="{{ result[1] }}" class="textbox" disabled/>
                         </div>
                         <div>
-                            <label class="formlabel" for="password"> Password :</label>
-                            <input class="formtext" id="password" name="password" type="password" value="{{ result[2] }}" class="textbox" disabled/>
+                            <label class="formlabel" for="phone"> Password :</label>
+                            <input class="formtext" id="password" name="password" type="text" value="{{ result[2] }}" class="textbox" disabled/>
+                        </div>
+                        <div>
+                            <label class="formlabel" for="phone"> Phone :</label>
+                            <input class="formtext" id="phone" name="phone" type="text" value="{{ result[8] }}" class="textbox" disabled/>
+                        </div>
+                        <div>
+                            <label class="formlabel" for="wday"> Working Day :</label>
+                            <input class="formtext" id="wday" name="wday" type="text" value="{{ result[9] }}" class="textbox" disabled/>
+                        </div>
+                        <div>
+                            <label class="formlabel" for="bdate"> Birthdate :</label>
+                            <input class="formtext" id="bdate" name="bdate" type="text" value="{{ result[7] }}" class="textbox" disabled/>
+                        </div>
+                        <div>
+                            <label class="formlabel" for="salary"> Salary :</label>
+                            <input class="formtext" id="salary" name="salary" type="text" value="{{ result[3] }}" class="textbox" disabled/>
                         </div>
                         <div>
                             <label class="formlabel" for="ssn"> Ssn :</label>
-                            <input class="formtext" id="ssn" name="ssn" type="text" value="{{ result[3] }}" class="textbox" disabled/>
+                            <input class="formtext" id="ssn" name="ssn" type="text" value="{{ result[4] }}" class="textbox" disabled/>
                         </div>
                         <div>
                             <label class="formlabel" for="address"> Address :</label>
-                            <input class="formtext" id="address" name="address" type="text" value="{{ result[4] }}" class="textbox" disabled/><br>
+                            <input class="formtext" id="address" name="address" type="text" value="{{ result[5] }}" class="textbox" disabled/><br>
                         </div>
                         <div>
                             <label class="formlabel" for="id"> Id :</label>
-                            <input class="formtext" id="id" name="id" type="text" value="{{ result[5] }}" class="textbox" disabled/></br></br>
+                            <input class="formtext" id="id" name="id" type="text" value="{{ result[6] }}" class="textbox" disabled/></br></br>
                         </div>
                         <div>
                             <input style="margin-top: 10%" type="submit" class="btn" value="Done"><br>
@@ -48,12 +68,13 @@
         </div>
 {#    </div>#}
 {#{% endblock %}#}
+<!------------------------------------------------- section  of patient profile  ---------------------------------------------------------------->
     {% elif session['log'] == 'pat' -%}
-        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/profile.css') }}">
         <div align="center">
-         <div align="center" style="width: 600px !important;" class="border">
+         <div align="center" style="width: 600px !important; height: 640px !important; " class="border">
                 <div> {#class="header"#}
-                    <h1 class="word">Profile</h1>
+                    <h1 class="word">Personal Info</h1>
                 </div>
                 <div>
                     <form style="display: flex; flex-direction: column" class="word" action="{{ url_for('patient') }}" method="get">
@@ -68,7 +89,15 @@
                         </div>
                         <div>
                             <label class="formlabel" for="password"> Password :</label>
-                            <input class="formtext" id="password" name="password" type="password" value="{{ result[2] }}" class="textbox" disabled/>
+                            <input class="formtext" id="password" name="text" type="text" value="{{ result[2] }}" class="textbox" disabled/>
+                        </div>
+                        <div>
+                            <label class="formlabel" for="phone"> Phone :</label>
+                            <input class="formtext" id="phone" name="phone" type="text" value="{{ result[7] }}" class="textbox" disabled/>
+                        </div>
+                        <div>
+                            <label class="formlabel" for="bdate"> Birthdate :</label>
+                            <input class="formtext" id="bdate" name="bdate" type="text" value="{{ result[8] }}" class="textbox" disabled/>
                         </div>
                         <div>
                             <label class="formlabel" for="ssn"> Ssn :</label>
@@ -90,13 +119,16 @@
                 </div>
             </div>
         </div>
-
+<!--------------------------------------------------------- section of Admin profile  ----------------------------------------------->
     {% elif session['log']=='adm' -%}
-        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/profile.css') }}">
         <div align="center">
-            <div align="center" style="width: 600px !important;" class="border">
+            <div class="container">
+                <!-- photo section  -->
+                 <div class="image"></div>
+            <div align="center" style="width: 600px !important; height: 690px !important;" class="border">
                 <div> {#class="header"#}
-                    <h1 class="word">Profile</h1>
+                    <h1 class="word">Personal Info</h1>
                 </div>
                 <div>
                     <form style="display: flex; flex-direction: column" class="word" action="{{ url_for('admin') }}" method="get">
@@ -111,7 +143,19 @@
                         </div>
                         <div>
                             <label class="formlabel" for="password"> Password :</label>
-                            <input class="formtext" id="password" name="password" type="password" value="{{ result[2] }}" class="textbox" disabled/>
+                            <input class="formtext" id="password" name="password" type="text" value="{{ result[2] }}" class="textbox" disabled/>
+                        </div>
+                        <div>
+                            <label class="formlabel" for="phone"> Phone :</label>
+                            <input class="formtext" id="phone" name="phone" type="text" value="{{ result[8] }}" class="textbox" disabled/>
+                        </div>
+                        <div>
+                            <label class="formlabel" for="bdate"> Birthdate :</label>
+                            <input class="formtext" id="bdate" name="bdate" type="text" value="{{ result[7] }}" class="textbox" disabled/>
+                        </div>
+                        <div>
+                            <label class="formlabel" for="salary"> Salary :</label>
+                            <input class="formtext" id="salary" name="salary" type="text" value="{{ result[6] }}" class="textbox" disabled/>
                         </div>
                         <div>
                             <label class="formlabel" for="ssn"> Ssn :</label>

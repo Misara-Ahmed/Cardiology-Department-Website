@@ -2,89 +2,31 @@
 {% block title %}About{% endblock %} {% block body%}
     <link rel="stylesheet" href="{{ url_for('static',filename='css/admin.css') }}">
 	<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
-{#{% with messages = get_flashed_messages() %}#}
-{#         {% if messages %}#}
-{#               {% for message in messages %}#}
-{#                    <p>{{ message }}</p>#}
-{#               {% endfor %}#}
-{#         {% endif %}#}
-{#{% endwith %}#}
-{#    {% with messages = get_flashed_messages() %}#}
-{#        {% if messages %}#}
-{#            <ul class=flashes>#}
-{#                {% for message in messages %}#}
-{#                    <li>{{ message }}</li>#}
-{#                {% endfor %}#}
-{#            </ul>#}
-{#        {% endif %}#}
-{#    {% endwith %}#}
-
-    <div class="wrapper">
-{#    {% with messages = get_flashed_messages() %}#}
-{#         {% if messages %}#}
-{#               {% for message in messages %}#}
-{#                    <p>{{ message }}</p>#}
-{#               {% endfor %}#}
-{#         {% endif %}#}
-{#    {% endwith %}#}
+<div class="wrapper">
     <div class="left">
-        <img src="https://i.imgur.com/cMy8V5j.png" 
-        alt="user" width="100">
         <h2> Admin</h2>
         <h4> Welcome </h4>
         <div class="dropdown">
           <button>Options</button>
           <div class="dropdown-content">
-          <a href="{{ url_for('add_patient') }}">Add patient</a>
-          <a href="{{ url_for('add_doctor') }}">Add doctor</a>
+          <a href="{{ url_for('add_patient') }}">Add Patient</a>
+          <a href="{{ url_for('add_doctor') }}">Add Doctor</a>
           <a href="http://127.0.0.1:5000/delete_patient"> Delete Patient</a>
-          <a href="http://127.0.0.1:5000/delete_doctor">Delete Dr</a>
-          <a href="http://127.0.0.1:5000/edit_patient">Edit Patient</a>
-          <a href="http://127.0.0.1:5000/edit_doctor">Edit Dr</a>
+          <a href="http://127.0.0.1:5000/delete_doctor">Delete Doctor</a>
+          <a href="http://127.0.0.1:5000/edit_admin"> Edit Admin</a>
+          <a href="http://127.0.0.1:5000/upload">Upload</a>
           </div>
         </div>
             </div>
     <div class="right"> 
         <div class="info">
-          <button> <a href="{{ url_for('veiw') }}">.</a><br></button>
-          <h3> Informations</h3>
+          <h3> Profile</h3>
+          <button> <a href="{{ url_for('veiw') }}">..................................</a><br></button>
         </div>
         <div class="info1">
-          <button> <a href="{{ url_for('admin_profile') }}">.</a><br></button>
-          <h3> Veiw</h3>
+          <h3>  Added accounts</h3>
+          <button> <a href="{{ url_for('admin_profile') }}">................................</a><br></button>
         </div>
       </div>
     </div>
-
-<script>
-		var x = document.getElementById("patient-form");
-		var y = document.getElementById("doctor-form");
-	
-		var z = document.getElementById("pointer-btn");
-		var l = document.getElementById("patient");
-		var r = document.getElementById("doctor");
-
-		var ac = document.getElementById("action_title");
-
-		function doctor(){
-      x.style.left = "-700px";
-			y.style.left = "30px";
-			z.style.left = "490px";
-			l.style.color = "##bfbbec";
-			r.style.color = "##bfbbec";
-			n.style.color = "##bfbbec";
-			ac.textContent = "Doctor";
-		}
-
-		function patient(){
-			x.style.left = "300px";
-			y.style.left = "900px";
-			z.style.left = "100px";
-			l.style.color = "##bfbbec";
-			r.style.color = "##bfbbec";
-			n.style.color = "##bfbbec";
-			ac.textContent = "Patient";
-		}
-			
-	</script>
 {% endblock %}

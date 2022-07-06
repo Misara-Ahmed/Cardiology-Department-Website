@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Edit Profile{% endblock %} {% block body%}
+<!----------------------------------------------- Edit Admin html file  ------------------------------------------------------------------------->
+<link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+<div align="center">
+    <div align="center" class="border_ed_ad">
+       <div class="header">
+          <h1 class="word">Profile Edit</h1>
+       </div></br></br></br>
+      <h2 class="word">
+          <form action="{{ url_for('edit_admin') }}" method="post">
+
+              <input id="username" name="username" type="text" value="{{ result[0] }}" placeholder="UserName" class="textbox_ed_ad"/></br></br>
+              <input id="email" name="email" type="text" value="{{ result[1] }}" placeholder="Email" class="textbox_ed_ad"/></br></br>
+              <input id="password" name="password" type="password" value="{{ result[2] }}" placeholder="Password" class="textbox_ed_ad"/></br></br>
+              <input id="phone" name="phone" type="number" value="{{ result[8] }}" placeholder="Phone Number" class="textbox_ed_ad"/></br></br>
+              <input id="address" name="address" type="text" value="{{ result[4] }}" placeholder="Address" class="textbox_ed_ad"/></br></br>
+              <input type="submit" class="btn_ed_ad" value="Update"></br>
+          </form>
+      </h2>
+
+    </div>
+  </div>
+
+{% endblock %}
+

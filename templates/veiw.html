@@ -4,10 +4,8 @@
 	<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 <div class="wrapper">
     <div class="left">
-        <img src="https://i.imgur.com/cMy8V5j.png" 
-        alt="user" width="100">
         <h2> Admin</h2>
-        <h4> Show Info </h4>
+        <h4> Show Accounts </h4>
     </div>
     <div class="right">
            <div class="right-top">
@@ -16,42 +14,46 @@
         <div id="pointer-btn"></div>
       </div>
         <div class="info">
-          <form id="patient-form">
+          <form id="patient-form" style="width: 10% ;">
             <table class="table2">
               <thead>
                 <tr>
                   <th>User</th>
                   <th>Email</th>
-                  <th>Password</th>
+                  <th>Phone</th>
                   <th>SSN</th>
-                  <th>address</th>
-                  <th>id</th>
+                  <th>Address</th>
+                  <th>Id</th>
+                    <th>Birthdate</th>
                 </tr>
               <tbody>
                 {%for r in patient%}
                 <tr>
-                  <td>{{r.0}}</td>
-                  <td>{{r.1}}</td>
-                  <td>{{r.2}}</td>
-                  <td>{{r.3}}</td>
-                  <td>{{r.4}}</td>
-                  <td>{{r.5}}</td>
+                    <td>{{r.0}}</td>
+                    <td>{{r.1}}</td>
+                    <td>{{r.7}}</td>
+                    <td>{{r.3}}</td>
+                    <td>{{r.4}}</td>
+                    <td>{{r.5}}</td>
+                    <td>{{ r.6 }}</td>
                 </tr>
                  {% endfor %}
               </tbody>
             </table>
           </form>
 
-          <form id="doctor-form">
+          <form id="doctor-form" style="width: 10%; left: 10% !important; ">
               <table class="table1">
       <thead>
         <tr>
           <th>User</th>
           <th>Email</th>
-          <th>Password</th>
+          <th>Phone</th>
           <th>SSN</th>
-          <th>address</th>
-          <th>id</th>
+          <th>Address</th>
+          <th>Id</th>
+            <th>Working Day</th>
+            <th>Salary</th>
         </tr>
 
       <tbody>
@@ -59,10 +61,12 @@
         <tr>
           <td>{{r.0}}</td>
           <td>{{r.1}}</td>
-          <td>{{r.2}}</td>
+          <td>{{r.8}}</td>
           <td>{{r.3}}</td>
           <td>{{r.4}}</td>
           <td>{{r.5}}</td>
+            <td>{{r.9}}</td>
+            <td>{{r.3}}</td>
         </tr>
          {% endfor %}
       </tbody>
@@ -92,9 +96,9 @@
 		}
 
 		function patient(){
-			x.style.left = "300px";
+			x.style.left = "110%";
 			y.style.left = "900px";
-			z.style.left = "100px";
+			z.style.left = "10%";
 			l.style.color = "##bfbbec";
 			r.style.color = "##bfbbec";
 			n.style.color = "##bfbbec";

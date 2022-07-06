@@ -1,9 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends "base.html" %}
+{% block title %}About{% endblock %} 
+{% block body%}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/showimg.css') }}">
     <title>Index</title>
 </head>
 <body>
-    <img src="{{ image }}" alt="User Image" height="200" width="400" >
-</body>
-</html>
+    <div class="wrapper">
+        <div class="left">
+            <h2> Patient</h2>
+            <h4> Welcome </h4>
+</div> 
+<div class="right">
+        <h2>Records</h2>
+        <p>You can now see your record uploded on the system, wish you good health</P>
+    <img src="{{ image }}" alt="User Image" height="200" width="400"style="vertical-align:center">
+</div>
+</div>
+{% endblock %}
