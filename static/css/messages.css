@@ -1,0 +1,11 @@
+.alert{
+    position:relative;
+  height: 6vh;
+  width: 25vh;
+  left: 10%;
+  transform: translateY(1000%);
+  background-color: rgb(165, 165, 82);
+    border: 1px solid rgb(143, 71, 71);
+    color:#00020346;
+  border-radius: 10%;  
+  }    

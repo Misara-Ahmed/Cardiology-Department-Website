@@ -50,7 +50,20 @@ position: absolute;
   font-size: 17px;
 }
 .navlist ul a:hover{
-  color: rgb(151, 52, 52);
+  color: rgb(51, 129, 172);
+}
+.nav-btn::after{
+  content: '';
+  width: 0%;
+  height: 2px;
+  background: #fff;
+  display: block;
+  margin: auto;
+  transition: 0.5s;
+}
+.nav-btn:hover::after {
+  width: 75%;
+  margin-left: 20px ;
 }
 .wrapper{
   position: absolute;
@@ -58,7 +71,7 @@ position: absolute;
   left: 50%;
   transform: translate(-50%,-50%);
   size-adjust: center;
-  width: 1050px;
+  width: 1100px;
   height: 80%;
   display: flex;
   box-shadow: 0 1px 20px 0 rgba(69,90,100,.08);
@@ -151,7 +164,7 @@ position: absolute;
   border-radius: 6px;
   overflow: hidden;
   max-width: 800px;
-  width: 150%;
+  width: 600px;
   margin: 0 auto;
   position: relative;
 
@@ -159,11 +172,13 @@ position: absolute;
 }
 .table1 thead tr {
   height: 60px;
+  width: 800px;
   background: #aed6f3;
   font-size: 16px;
 }
 .table1 tbody tr {
   height: 48px;
+  width: 800px;
   border-bottom: 1px solid #e3f1d5;
 }
 
@@ -176,18 +191,20 @@ position: absolute;
   border-radius: 6px;
   overflow: hidden;
   max-width: 800px;
-  width: 150%;
+  width: 600px;
   margin: 0 auto;
   position: relative;
   transform: translateX(-55%);
 }
 table thead tr {
   height: 60px;
+  width: 800px;
   background: #aed6f3;
   font-size: 16px;
 }
 .table2 tbody tr {
   height: 48px;
+  width: 800px;
   border-bottom: 1px solid #e3f1d5;
 }
 .table3 {

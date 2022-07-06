@@ -1,0 +1,16 @@
+body{
+    margin: 10;
+    padding: 10;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    height: auto;   
+    background-image: url(heart.jpg);
+    background-size: cover;
+}
+
+.container h2 {
+color: rgb(153, 0, 0);
+}
+.btn {
+  background-color: rgb(7, 55, 90);
+}

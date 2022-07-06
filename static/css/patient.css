@@ -91,7 +91,7 @@ position: absolute;
   font-size: 17px;
 }
 .navlist ul a:hover{
-  color: rgb(151, 52, 52);
+  color: rgb(51, 129, 172);
 }
 .wrapper{
   position: absolute;
@@ -117,6 +117,7 @@ position: absolute;
   border-bottom-left-radius: 5px;
   text-align: center;
   color: #fff;
+  
 }
 
 .wrapper .left img{
@@ -126,6 +127,7 @@ position: absolute;
 
 .wrapper .left h4{
   margin-bottom: 10px;
+  margin-top: 20px;
 }
 
 .wrapper .left p{
@@ -147,7 +149,7 @@ margin-left: 12px;
 height: 20vh;
 width: 25vh;
 left: 10%;
-background-image: url(cal.jpg);
+background-image: url(patient.jpg);
 background-size: cover;
 transform: translateY(40%);
   border: 1px solid #ffff;
@@ -159,15 +161,19 @@ border-radius: 50%;
 }
 .info1 h3{
   position: relative;
-  left: 15%;
-  transform: translateY(300%); 
+  left: 20%;
+  transform: translateY(270%); 
   color: #003659;
 }
 .info h3{
   position: relative;
-  left: 150%;
+  left: 140%;
   transform: translateY(1200%); 
   color: #003659;
+}
+.info .app{
+  transform: translateY(250px);
+  margin-left: 0;
 }
 .info1 button{
   position: relative;
@@ -177,16 +183,17 @@ margin-left: 12px;
 height: 20vh;
 width: 20vh;
 left: 60%;
-background-image: url(patient.jpg);
+background-image: url(cal.jpg);
 background-size: cover;
-transform: translateY(-90%);
+transform: translateY(-80%);
   border: 1px solid #ffff;
-  color:#f5f6f746;
+  color:#f9fcff46;
 border-radius: 50%;  
 }
 .info1 button:hover{
   background: rgba(219, 228, 231, 0.712);
 }
+
 .right-top{
   transform: translateY(-50%);
 	width: 100%;

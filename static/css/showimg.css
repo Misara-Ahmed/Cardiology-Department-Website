@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+body{
+   background-color: #f3f3f3;
+}
+
+a{
+  color:#fff;
+  text-decoration: none;
+}
+
+.navlist{
+  width: 100%;
+  padding: 15px 15vw;
+  position: fixed;
+  background-color:#003659;
+  z-index: 10;
+
+}
+
+.box img{
+position: absolute;
+  left: 100px;
+  bottom: -58px;
+  width: 180px;
+  height: 150px;
+}
+
+.navlist ul {
+  display: flex;
+  list-style: none;
+}
+.navlist ul li:first-child{
+  flex: 1;
+}
+.navlist h2{
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+}
+.navlist ul a{
+  margin-left: 20px;
+  font-size: 17px;
+}
+.navlist ul a:hover{
+  color: rgb(51, 129, 172);
+}
+.nav-btn::after{
+  content: '';
+  width: 0%;
+  height: 2px;
+  background: #fff;
+  display: block;
+  margin: auto;
+  transition: 0.5s;
+}
+.nav-btn:hover::after {
+  width: 75%;
+  margin-left: 20px ;
+}
+.wrapper{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  size-adjust: center;
+  width: 900px;
+  height: 60%;
+  display: flex;
+  box-shadow: 0 1px 20px 0 rgba(69,90,100,.08);
+	padding: 10px 0px;
+	border-radius: 5px;
+	overflow: hidden;
+}
+ .wrapper .left{
+        width: 35%;
+        background: linear-gradient(to right,#003659,#003659);
+        padding: 30px 25px;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        text-align: center;
+        color: #fff;
+      }
+      .wrapper .left h4{
+        margin-bottom: 10px;
+        height: 40%;
+      }
+      
+      .wrapper .left p{
+        font-size: 12px;
+      }
+      
+      .wrapper .right{
+        width: 65%;
+        background: #fff;
+        padding: 30px 25px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+      .wrapper .right h2{
+        margin-bottom: 10px;
+        color: rgb(57, 117, 196);
+    
+      }
+      
+      .wrapper .right p{
+        font-size: 20px;
+        height: 20%;
+        color: rgb(7, 37, 77);
+      }
+      

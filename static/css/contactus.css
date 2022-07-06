@@ -51,7 +51,20 @@ a{
     font-size: 17px;
 }
 .navlist ul a:hover{
-    color: rgb(253, 245, 8);
+    color: rgb(51, 129, 172);
+}
+.nav-btn::after{
+  content: '';
+  width: 0%;
+  height: 2px;
+  background: #fff;
+  display: block;
+  margin: auto;
+  transition: 0.5s;
+}
+.nav-btn:hover::after {
+  width: 75%;
+  margin-left: 20px ;
 }
 .container {
     position: relative;
