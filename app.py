@@ -31,7 +31,7 @@ def is_logged_in(f):
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  passwd="root_123_456_789",
+  passwd="misara2468",
   database="project"
 )
 mycursor = mydb.cursor()
@@ -133,6 +133,9 @@ def register():
             return render_template('register.html')
         elif not email or not password or not id or not ssn:
             flash('Fill out the Registration Form!')
+            return render_template('register.html')
+        elif len(ssn) > 9 :
+            flash('SSN must be less than 10 characters.', category='error')
             return render_template('register.html')
         elif len(email) < 2:
             flash('Email must be greater than 4 characters.', category='error')
@@ -310,6 +313,9 @@ def add_doctor():
         elif not email or not password or not id or not ssn or not ssn:
             flash('Fill out the Registration Form!')
             return render_template('add_doctor.html')
+        elif len(ssn) > 9 :
+            flash('SSN must be less than 10 characters.', category='error')
+            return render_template('add_doctor.html')
         elif len(email) < 2:
             flash('Email must be greater than 4 characters.', category='error')
             return render_template('add_doctor.html')
@@ -360,6 +366,9 @@ def add_patient():
             return render_template('add_patient.html')
         elif not email or not password or not id or not ssn or not ssn:
             flash('Fill out the Registration Form!')
+            return render_template('add_patient.html')
+        elif len(ssn) > 9 :
+            flash('SSN must be less than 10 characters.', category='error')
             return render_template('add_patient.html')
         elif len(email) < 2:
             flash('Email must be greater than 4 characters.', category='error')
