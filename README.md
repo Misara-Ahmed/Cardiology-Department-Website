@@ -75,7 +75,7 @@ password, id
 
 ### Team
 
-First Semester - Biomedical Digital Signal Processing (SBE3110) class project created by:
+Second Year - Biomedical Digital Signal Processing (SBE3110) class project created by:
 
 | Team Members' Names                                  | Section | B.N. |
 | ---------------------------------------------------- | :-----: | :--: |
@@ -89,5 +89,5 @@ First Semester - Biomedical Digital Signal Processing (SBE3110) class project cr
 ### Submitted to:
 
 - Dr. Ahmed Hesham & Eng. Eman
-  All rights reserved © 2023 to Team 2 - Systems & Biomedical Engineering, Cairo University (Class 2024)
+  All rights reserved © 2023 to Team 14 - Systems & Biomedical Engineering, Cairo University (Class 2024)
 > 
