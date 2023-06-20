@@ -1,14 +1,17 @@
-# Cardiology department app 
-Team Members:
->
-* Arwa Esam 
-* Rahma AbdEkhader  
-* Doha Eid
-* Sama Mostafa 
-* Misara Ahmed
-* Yousr Hejy   
->
-First: creating tables
+# Cardiology department app
+
+## Table of contents:
+
+- [DataBase Diagram](#database-diagram)
+- [Project Steps](#project-steps)
+- [Team](#team)
+
+  
+### DataBase Diagram
+![Diagranm](Images/AR_Diagram.png)
+
+### project Steps
+*First: creating tables*
 >create the following tables:
 * Admin table
 * Doctor table
@@ -17,7 +20,7 @@ First: creating tables
 * contact us table
 * Patient-record table
 >
-Second: creating pages
+*Second: creating pages*
 * Register page
 * Add doctor
 * Add patient
@@ -40,14 +43,14 @@ password, id
 * Edit doctor
 * Edit patient
 >Explanation:
->it allows anyone of the users to edit any information in their profile
+>it allows anyone of the users to edit any information in thier profile
 >
 * Delete doctor
 * Delete patient
 >Explanation:
 >it allows admin to delete profile of doctor or patient from the system permenantly
 >
-* Appointment page
+* Appointement page
 1. create appointment:
 >needed information: 
 >patient name, doctor name, id of the patient, describtion of what the patient need  
@@ -65,7 +68,26 @@ password, id
 * profile page  
 >Explanation:
 >it shows the information of each user in cardiology department
-> 
 * Additional page  
 >Home page, Devices page, About us, Contact us
-> \
+>
+
+
+### Team
+
+First Semester - Biomedical Digital Signal Processing (SBE3110) class project created by:
+
+| Team Members' Names                                  | Section | B.N. |
+| ---------------------------------------------------- | :-----: | :--: |
+| [Sama Mostafa](https://github.com/SamaMostafa1)         |    1    |    |
+| [Doha Eid](https://github.com/doha-eid)       |    2    |    |
+| [Misara Ahmed](https://github.com/Misara-Ahmed)       |    2    | 43   |
+| [Rahma Abdelkader](https://github.com/rahmaabdelkader2) |    1    |  31  |
+| [Yousr Ashraf](https://github.com/YousrHejy)       |    2    |  54  |
+| [Arwa Esam](https://github.com/)       |    1    |    |
+
+### Submitted to:
+
+- Dr. Ahmed Hesham & Eng. Eman
+  All rights reserved © 2023 to Team 2 - Systems & Biomedical Engineering, Cairo University (Class 2024)
+> 
